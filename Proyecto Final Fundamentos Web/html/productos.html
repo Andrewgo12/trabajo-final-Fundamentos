@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Productos de Limpieza</title>
+    <link rel="stylesheet" href="../css/Styles.css">
+    <link rel="stylesheet" href="../css/Anuncios.css">
+</head>
+
+<body>
+    <header>
+        <h1>Catálogo de Productos de Limpieza</h1>
+        <h4>¡Bienvenidos! Estamos para servirle</h4>
+        <p>A continuación, le presentamos nuestro catálogo de productos.</p>
+    </header>
+
+    <div id="contenedor">
+        <aside id="menu-lateral">
+            <h1>Menú</h1>
+            <input type="text" id="buscador" placeholder="Buscar productos..." aria-label="Buscar productos">
+            <input type="number" id="min-precio" placeholder="Precio mínimo" aria-label="Precio mínimo">
+            <input type="number" id="max-precio" placeholder="Precio máximo" aria-label="Precio máximo">
+            <button id="filterButton" aria-label="Filtrar productos">Filtrar</button>
+            <h2>Categorías</h2>
+            <ul>
+                <li>Productos de limpieza general</li>
+                <li>Desinfectantes</li>
+                <li>Detergentes</li>
+                <li>Desengrasantes</li>
+                <li>Productos para el hogar</li>
+            </ul>
+        </aside>
+
+        <main id="productos">
+            <!-- Se agregarán dinámicamente los productos aquí -->
+        </main>
+
+        <aside id="anuncios">
+            <h2>Anuncios</h2>
+            <p>¡Aproveche nuestras ofertas especiales en productos de limpieza!</p>
+            <p>Visite nuestra tienda para obtener más información sobre descuentos.</p>
+            <h3>Anuncios de Google</h3>
+            <div id="google-ads">
+                <p>[Anuncio de Google 1]</p>
+                <p>[Anuncio de Google 2]</p>
+                <p>[Anuncio de Google 3]</p>
+            </div>
+            <button class="boton" onclick="mostrarTestimonios()">Ver Testimonios</button>
+            <button class="boton" onclick="mostrarAyuda()">Necesito Ayuda</button>
+            <section id="testimonios" class="oculto">
+                <h3>Testimonios de Clientes</h3>
+                <p>"Excelente servicio y productos de alta calidad!" - Juan P.</p>
+                <p>"Siempre encuentro lo que necesito aquí." - Ana G.</p>
+            </section>
+            <section id="ayuda" class="oculto">
+                <h3>Ayuda</h3>
+                <p>Si tiene alguna pregunta, no dude en contactarnos al <a href="tel:1234567890">123-456-7890</a>.</p>
+                <p>O envíenos un correo a: <a href="mailto:ayuda@productoslimpieza.com">ayuda@productoslimpieza.com</a>
+                </p>
+            </section>
+        </aside>
+    </div>
+
+    <article id="ventanaDetalles" class="ventana oculto">
+        <section id="ventanaProducto">
+            <div class="contenidoVentana">
+                <button id="cerrarVentana" class="cerrar" aria-label="Cerrar ventana">&times;</button>
+                <img id="imagenProductoVentana" src="" alt="">
+                <h3 id="nombreProductoVentana"></h3>
+                <p id="precioProductoVentana"></p>
+                <p id="cantidadProductoVentana"></p>
+                <p id="categoriaProductoVentana"></p>
+            </div>
+        </section>
+    </article>
+
+    <script src="../js/Productos.js"></script>
+    <script src="../js/interacciones.js"></script>
+</body>
+
+</html>

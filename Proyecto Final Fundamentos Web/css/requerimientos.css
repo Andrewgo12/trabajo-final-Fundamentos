@@ -1,0 +1,238 @@
+/* Estilo general para todos los elementos */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Estilos generales del cuerpo de la página */
+body {
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.6;
+    background-color: #f0f2f5;
+    /* Fondo claro que no interfiere con los colores que tienes */
+    padding: 20px;
+}
+
+/* Encabezado */
+.cabecera {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-color: #4a90e2;
+    color: white;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Logo en el encabezado */
+.cabecera .logo img {
+    padding: 20px;
+    width: 200px;
+    height: auto;
+    transition: transform 0.3s;
+}
+
+/* Efecto hover en el logo */
+.cabecera .logo img:hover {
+    transform: scale(1.1);
+}
+
+/* Título del encabezado */
+.texto-cabecera h1 {
+    margin: 20px;
+    padding: 10px;
+    font-size: 2.5rem;
+}
+
+/* Contenedor principal del formulario */
+.contenedor-formulario {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    margin-top: 40px;
+}
+
+/* Estilo del formulario */
+.formulario-requerimientos {
+    width: 100%;
+    max-width: 800px;
+    background-color: #ffffff;
+    /* Fondo blanco para mantener claridad */
+    padding: 40px;
+    /* Más padding para mayor espacio */
+    border-radius: 15px;
+    /* Bordes redondeados */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    /* Sombra elegante */
+    transition: box-shadow 0.3s;
+    border: 3px solid #000000;
+    /* Mantengo el borde negro que ya tenías */
+}
+
+/* Efecto hover en el formulario */
+.formulario-requerimientos:hover {
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
+}
+
+/* Filas del formulario para distribución de campos */
+.fila-formulario {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    /* Espacio uniforme entre campos */
+    margin-bottom: 25px;
+}
+
+/* Estilo para campos de media anchura */
+.mitad-ancho {
+    flex: 1;
+    margin: 0 10px;
+}
+
+/* Fieldset para agrupar secciones del formulario */
+fieldset {
+    border: 3px solid #000000;
+    /* Bordes negros para mantener la apariencia */
+    border-radius: 10px;
+    padding: 20px;
+    /* Mayor espacio interno */
+    margin-bottom: 20px;
+}
+
+/* Estilo para el título del fieldset */
+legend {
+    margin: 10px;
+    padding: 0 15px;
+    font-weight: bold;
+    color: #4a90e2;
+    /* Mantengo el color azul para resaltar */
+}
+
+/* Campos de entrada del formulario */
+input[type="text"],
+input[type="email"],
+input[type="number"],
+input[type="tel"],
+textarea {
+    width: 90%;
+    /* Ancho del campo */
+    padding: 10px;
+    /* Espaciado interno */
+    margin-top: 8px;
+    /* Margen superior */
+    border: none;
+    /* Sin borde */
+    border-bottom: 4px solid #a500e6;
+    /* Borde solo en la parte inferior */
+    border-bottom-left-radius: 15px;
+    /* Radio de 30px en la esquina inferior izquierda */
+    border-bottom-right-radius: 15px;
+    /* Radio de 30px en la esquina inferior derecha */
+    transition: border-color 0.3s, box-shadow 0.3s;
+    /* Transiciones suaves */
+    background-color: #f9f9f9;
+    /* Fondo ligeramente gris */
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
+    /* Sombra interna suave */
+}
+
+/* Efecto de foco en campos de entrada */
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="number"]:focus,
+input[type="tel"]:focus,
+textarea:focus {
+    border-bottom-color: #ff0000;
+    /* Cambia el color del borde inferior al enfocar */
+    box-shadow: 0 0 8px rgba(255, 0, 0, 0.3);
+    /* Sombra roja al enfocar */
+    outline: none;
+    /* Sin contorno al enfocar */
+}
+
+/* Configuración específica para el campo de texto largo */
+textarea {
+    height: 100px;
+}
+
+/* Estilo para el contenedor de checkbox */
+.contenedor-checkbox {
+    margin-bottom: 20px;
+}
+
+/* Botones de acción */
+button {
+    background-color: #ff0000;
+    /* Botón rojo */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 12px 20px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+/* Efecto hover en los botones */
+button:hover {
+    background-color: #e60000;
+}
+
+/* Estilo para el mensaje de éxito */
+.mensaje-exito {
+    text-align: center;
+    margin-top: 20px;
+    padding: 20px;
+    border: 3px solid #4caf50;
+    background-color: #e8f5e9;
+    color: #4caf50;
+    border-radius: 10px;
+}
+
+/* Estilo general para las secciones del foro */
+#foro {
+    margin-top: 40px;
+}
+
+/* Contenedor para la información y las preguntas frecuentes */
+.contenedor-info-faq {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    /* Espacio uniforme entre secciones */
+}
+
+/* Estilo para las secciones de información */
+.informacion,
+.faq {
+    flex: 1;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo para los títulos de las secciones del foro */
+.informacion h2,
+.faq h2 {
+    margin-bottom: 15px;
+    color: #4a90e2;
+}
+
+/* Estilo para la lista de beneficios */
+.lista-beneficios {
+    margin-top: 10px;
+}
+
+/* Estilo para los ítems de preguntas frecuentes */
+.item-faq {
+    margin: 10px 0;
+}
+
+/* Estilo para los títulos de preguntas frecuentes */
+.item-faq h3 {
+    cursor: pointer;
+}

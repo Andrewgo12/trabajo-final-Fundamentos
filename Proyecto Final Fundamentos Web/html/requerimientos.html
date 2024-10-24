@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Requerimientos</title>
+    <link rel="stylesheet" href="../css/requerimientos.css">
+</head>
+
+<body>
+    <header class="cabecera">
+        <div class="logo">
+            <img src="../img/logoLAUC.jpeg" alt="Logo de la tienda">
+        </div>
+        <div class="texto-cabecera">
+            <h1>Limpieza En Un Click</h1>
+            <p>Regístrate y da el primer paso hacia nuevas oportunidades.</p>
+        </div>
+    </header>
+
+    <main>
+        <section class="contenedor-formulario">
+            <form class="formulario-requerimientos" id="requerimientosForm">
+                <h1>Registro Para Compras</h1>
+
+                <div class="fila-formulario">
+                    <fieldset id="informacion_general" class="mitad-ancho">
+                        <legend>Información General</legend>
+                        <label for="nombre">Nombre:</label>
+                        <input type="text" id="nombre" placeholder="Nombre">
+
+                        <label for="apellido">Apellido:</label>
+                        <input type="text" id="apellido" placeholder="Apellido">
+                    </fieldset>
+
+                    <fieldset id="datos_referencia" class="mitad-ancho">
+                        <legend>Datos de Referencia</legend>
+                        <label for="presupuesto">Presupuesto:</label>
+                        <input type="number" id="presupuesto" placeholder="Presupuesto">
+
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" placeholder="Email">
+
+                        <label for="telefono">Teléfono:</label>
+                        <input type="tel" id="telefono" placeholder="Teléfono">
+
+                        <label for="direccion">Dirección:</label>
+                        <input type="text" id="direccion" placeholder="Dirección">
+                    </fieldset>
+                </div>
+
+                <fieldset class="contenedor-checkbox">
+                    <legend>Tipo de Envío</legend>
+                    <label>
+                        <input type="checkbox" id="Domicilio">
+                        Entrega a Domicilio
+                    </label>
+                    <label>
+                        <input type="checkbox" id="RecogerEnTienda">
+                        Recoger en Tienda Local
+                    </label>
+                </fieldset>
+
+                <div id="terminos">
+                    <label>
+                        <input type="checkbox" id="aceptarTerminos" required>
+                        Acepto los términos y condiciones
+                    </label>
+                </div>
+
+                <button type="submit">Iniciar Compra</button>
+            </form>
+
+            <div id="mensajeExito" class="mensaje-exito" style="display:none;">
+                <h2>¡Registro Exitoso!</h2>
+                <p>Gracias por registrarte. Ahora puedes empezar a comprar.</p>
+                <a href="../html/productos.html" class="btn">Ver Productos</a>
+            </div>
+        </section>
+
+        <section id="foro">
+            <div class="contenedor-info-faq">
+                <div class="informacion">
+                    <h2>¿Por qué registrarte?</h2>
+                    <p>Al registrarte en nuestra tienda, tendrás acceso a ofertas exclusivas, seguimiento de tus pedidos
+                        y un historial de compras. ¡No te lo pierdas!</p>
+                    <ul class="lista-beneficios">
+                        <li>🎁 Ofertas personalizadas.</li>
+                        <li>📜 Historial accesible.</li>
+                        <li>📢 Notificaciones de nuevos productos.</li>
+                    </ul>
+                </div>
+
+                <div class="faq">
+                    <h2>Preguntas Frecuentes</h2>
+                    <div class="item-faq">
+                        <h3>🔐 ¿Cómo cambiar mi contraseña?</h3>
+                        <p>Ve a "Mi Cuenta" y sigue las instrucciones.</p>
+                    </div>
+                    <div class="item-faq">
+                        <h3>💳 ¿Métodos de pago?</h3>
+                        <p>Aceptamos tarjetas de crédito, débito y PayPal.</p>
+                    </div>
+                    <div class="item-faq">
+                        <h3>🔄 ¿Puedo devolver un producto?</h3>
+                        <p>Sí, puedes devolver productos dentro de 30 días tras la compra.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    <script src="../js/requerimientos.js"></script>
+</body>
+
+</html>

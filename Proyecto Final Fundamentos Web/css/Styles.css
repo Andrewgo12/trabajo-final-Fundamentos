@@ -1,0 +1,335 @@
+/* Estilos generales */
+body {
+    font-family: 'Arial', sans-serif;
+    /* Fuente general */
+    margin: 0;
+    padding: 0;
+    background-color: #f0f4f8;
+    /* Color de fondo suave */
+    color: #333;
+    /* Color del texto */
+}
+
+/* Estilo del encabezado */
+header {
+    background-color: #4A148C;
+    /* Color del encabezado */
+    color: #ffffff;
+    /* Color del texto del encabezado */
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    font-size: 1.5rem;
+    /* Tamaño de fuente aumentado */
+    position: relative;
+    /* Para ajustar su posición */
+    z-index: 10;
+    /* Asegura que esté por encima de otros elementos */
+}
+
+/* Contenedor principal */
+#contenedor {
+    display: flex;
+    width: 100%;
+    max-width: 1200px;
+    margin: 20px auto;
+    /* Centrar contenedor */
+}
+
+/* Estilo del menú lateral */
+#menu-lateral {
+    background-color: #34495E;
+    /* Color del menú lateral */
+    color: #ECF0F1;
+    /* Color del texto del menú */
+    width: 250px;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    flex-shrink: 0;
+    /* Evitar que se reduzca */
+    position: sticky;
+    /* Mantener el menú en su lugar al hacer scroll */
+    top: 0;
+    /* Alinear al top */
+}
+
+/* Estilo de inputs y botones en el menú lateral */
+#menu-lateral input[type="text"],
+#menu-lateral input[type="number"],
+#menu-lateral button {
+    margin-bottom: 15px;
+    padding: 12px;
+    /* Aumentar el tamaño de padding */
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    /* Tamaño de fuente */
+}
+
+/* Estilo específico para el buscador y el botón de filtro */
+#buscador {
+    background-color: #ECF0F1;
+    /* Color del buscador */
+    color: #34495E;
+    /* Color del texto del buscador */
+}
+
+#filterButton {
+    background-color: #2ECC71;
+    /* Color para el botón de filtro */
+    color: white;
+    cursor: pointer;
+}
+
+/* Estilo de la lista de categorías */
+#menu-lateral ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#menu-lateral ul li {
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Contenedor de productos */
+#productos {
+    padding: 20px;
+    flex-grow: 1;
+    /* Permitir que los productos ocupen el espacio disponible */
+}
+
+/* Estilos para productos */
+.producto {
+    background-color: #ffffff;
+    /* Color de fondo del producto */
+    border: 2px solid #4A148C;
+    /* Borde del producto */
+    border-radius: 10px;
+    /* Bordes redondeados */
+    padding: 15px;
+    text-align: center;
+    margin-bottom: 20px;
+    /* Espacio entre productos */
+    transition: transform 0.2s;
+    /* Efecto de transformación al pasar el ratón */
+}
+
+.producto:hover {
+    transform: scale(1.02);
+    /* Efecto de aumento al pasar el ratón */
+}
+
+.producto img {
+    width: 100px;
+    /* Tamaño de imagen */
+    height: 100px;
+    /* Tamaño de imagen */
+    object-fit: cover;
+    border-radius: 50%;
+    /* Bordes redondeados */
+    border: 3px solid #4CAF50;
+    /* Borde de imagen */
+}
+
+/* Estilo para la ventana emergente */
+.ventana {
+    display: none;
+    /* Ocultar inicialmente */
+    position: fixed;
+    /* Fijar la ventana en la pantalla */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    /* Fondo semi-transparente */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.contenidoVentana {
+    background-color: #ffffff;
+    /* Fondo blanco para el contenido */
+    padding: 30px;
+    /* Espaciado interno */
+    border-radius: 10px;
+    /* Bordes redondeados */
+    position: relative;
+    width: 500px;
+    /* Ancho fijo para el contenido */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    /* Sombra */
+}
+
+.cerrar {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    cursor: pointer;
+    font-size: 25px;
+    /* Tamaño de la letra de cerrar */
+    color: #ff4d4d;
+    /* Color de cerrar */
+}
+
+/* Estilos para anuncios */
+#anuncios {
+    width: 350px;
+    /* Ancho constante para anuncios */
+    background-color: #e3f2fd;
+    /* Color de fondo para anuncios */
+    padding: 15px;
+    /* Espaciado interno */
+    border-radius: 10px;
+    /* Bordes redondeados */
+    margin-left: 20px;
+    /* Espacio entre menú y anuncios */
+    flex-shrink: 0;
+    /* Evitar que se reduzca */
+}
+
+/* Estilos para secciones de ayuda y testimonios */
+#testimonios,
+#ayuda {
+    display: none;
+    /* Ocultar inicialmente */
+    margin-top: 20px;
+    /* Espacio arriba */
+    padding: 15px;
+    /* Espaciado interno */
+    border: 2px solid #4CAF50;
+    /* Borde */
+    border-radius: 10px;
+    /* Bordes redondeados */
+    background-color: #f9f9f9;
+    /* Color de fondo */
+}
+
+/* Estilo para el título de las secciones */
+h3 {
+    margin: 0;
+    /* Sin margen */
+    color: #4A148C;
+    /* Color del título */
+    font-weight: bold;
+    /* Negrita */
+}
+
+/* Estilo para los textos de ayuda y testimonios */
+p {
+    margin: 5px 0;
+    /* Margen */
+    line-height: 1.6;
+    /* Espaciado entre líneas */
+}
+
+/* Estilos para botones de testimonio y ayuda */
+.boton-testimonio,
+.boton-ayuda {
+    background-color: #FFD600;
+    /* Color del botón */
+    border: none;
+    /* Sin borde */
+    color: #333;
+    /* Color del texto */
+    padding: 12px 20px;
+    /* Espaciado interno */
+    border-radius: 5px;
+    /* Bordes redondeados */
+    margin-top: 10px;
+    /* Margen arriba */
+    cursor: pointer;
+    /* Cambia el cursor al pasar el ratón */
+}
+
+/* Estilo para el pie de página */
+footer {
+    background-color: #4A148C;
+    /* Color de fondo del pie de página */
+    color: white;
+    /* Color del texto del pie */
+    text-align: center;
+    /* Alinear texto al centro */
+    padding: 15px;
+    /* Espaciado interno */
+    width: 100%;
+    /* Ancho total */
+    position: relative;
+    /* Para ajustarlo con el contenido */
+    z-index: 5;
+    /* Asegura que esté por encima de otros elementos */
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    #contenedor {
+        flex-direction: column;
+        /* Cambiar a columna en pantallas pequeñas */
+    }
+
+    #anuncios {
+        margin-left: 0;
+        /* Eliminar margen en pantallas pequeñas */
+    }
+
+    #productos {
+        display: grid;
+        /* Usar grid para productos */
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        /* Ajuste automático */
+        gap: 20px;
+        /* Espacio entre productos */
+    }
+}
+
+@media (max-width: 480px) {
+    #productos {
+        grid-template-columns: 1fr;
+        /* Un solo producto por fila en pantallas muy pequeñas */
+    }
+}
+
+/* Estilo para botones */
+button,
+.boton-testimonio,
+.boton-ayuda {
+    background-color: #4A148C;
+    /* Color de los botones */
+    color: #ffffff;
+    /* Color del texto */
+    padding: 12px 20px;
+    /* Espaciado interno */
+    border: none;
+    /* Sin borde */
+    border-radius: 5px;
+    /* Bordes redondeados */
+    cursor: pointer;
+    /* Cambia el cursor al pasar el ratón */
+    margin-right: 20px;
+    /* Mayor espacio entre botones */
+}
+
+button:hover,
+.boton-testimonio:hover,
+.boton-ayuda:hover {
+    background-color: #6A1B9A;
+    /* Color de hover más oscuro */
+}
+
+/* Estilo específico para el filtro */
+#filterButton {
+    width: 100%;
+    /* Botón ocupa todo el ancho */
+    background-color: #2ECC71;
+    /* Color del botón de filtro */
+    color: white;
+    /* Color del texto */
+}
