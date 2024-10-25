@@ -42,8 +42,8 @@
                         <label for="email">Email:</label>
                         <input type="email" id="email" placeholder="Email">
 
-                        <label for="telefono">Teléfono:</label>
-                        <input type="tel" id="telefono" placeholder="Teléfono">
+                        <label for="CantidadPorductosrq">Cantidad de productos:</label>
+                        <input type="number" id="CantidadPorductosrq" placeholder="Cantidad de productos">
 
                         <label for="direccion">Dirección:</label>
                         <input type="text" id="direccion" placeholder="Dirección">
@@ -68,8 +68,9 @@
                         Acepto los términos y condiciones
                     </label>
                 </div>
-
                 <button type="submit">Iniciar Compra</button>
+                <button type="button" onclick="document.getElementById('requerimientosForm').reset()">Limpiar
+                    campos</button>
             </form>
 
             <div id="mensajeExito" class="mensaje-exito" style="display:none;">
@@ -109,8 +110,8 @@
                 </div>
             </div>
         </section>
-
     </main>
+
     <script src="../js/requerimientos.js"></script>
 </body>
 
