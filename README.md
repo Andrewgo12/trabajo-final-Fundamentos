@@ -23,7 +23,7 @@ Contiene la lógica del lado del cliente que permite la interactividad del sitio
 - **app.js**: Archivo principal que coordina la interacción entre las distintas partes de la aplicación, garantizando que las funciones se ejecuten correctamente.
 
 ### Carpeta JSON
-Almacena datos estructurados en formato JSON que son esenciales para el funcionamiento del ecommerce:
+Almacena datos estructurados en formato JSON que son esenciales para el funcionamiento de la tienda virtual:
 - Contiene archivos que definen la estructura y los datos de los productos, lo que permite una gestión sencilla y escalable de la información.
 
 ## Tecnologías Utilizadas
