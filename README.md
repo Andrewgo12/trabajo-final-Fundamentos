@@ -1,6 +1,6 @@
 # Proyecto Final Fundamentos
 
-Este proyecto presenta un ecommerce dedicado a la venta de suplementos y accesorios deportivos. Se compone de archivos HTML, CSS, JavaScript y JSON que permiten una experiencia de usuario interactiva y dinámica.
+Este proyecto presenta un tienda virtual dedicada la venta de prodictos de aseo variados  Se compone de archivos HTML, CSS, JavaScript y JSON que permiten una experiencia de usuario interactiva y dinámica.
 
 ## Estructura del Proyecto
 
