@@ -33,12 +33,6 @@ Almacena datos estructurados en formato JSON que son esenciales para el funciona
 - **JavaScript**: Para añadir interactividad y gestionar la lógica del sitio.
 - **JSON**: Para la estructuración de datos de productos, facilitando la carga y manipulación de información en la aplicación.
 
-## Tecnologías Utilizadas
-
-- **HTML5**: Para la estructura del contenido.
-- **CSS3**: Para los estilos y el diseño visual de la aplicación.
-- **JavaScript**: Para la lógica y funcionalidad de la aplicación.
-- **JSON**: Para la gestión de datos.
 
 ### Mejoras Realizadas
 - Se detalló más sobre cada archivo y su función específica.
