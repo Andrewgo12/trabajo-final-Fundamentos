@@ -1,4 +1,3 @@
-// carrito.js
 let carrito = [];
 let totalCompra = 0;
 
@@ -69,3 +68,4 @@ function seleccionarMetodoPago(metodo) {
     const mensajePresupuesto = document.getElementById('mensaje-presupuesto');
     mensajePresupuesto.textContent = `Método de Pago Seleccionado: ${metodo}`;
 }
+
