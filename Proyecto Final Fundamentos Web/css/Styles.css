@@ -333,3 +333,52 @@ button:hover,
     color: white;
     /* Color del texto */
 }
+
+.modal {
+    display: none;
+    /* Ocultar por defecto */
+    position: fixed;
+    /* Fijo en la pantalla */
+    z-index: 1000;
+    /* Asegúrate de que esté encima de otros elementos */
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Ancho completo */
+    height: 100%;
+    /* Alto completo */
+    overflow: auto;
+    /* Habilitar desplazamiento si es necesario */
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Fondo oscuro con opacidad */
+}
+
+.modal-content {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    opacity: 0;
+    /* Comienza oculto */
+    transform: translateY(-20px);
+    /* Desplazado hacia arriba */
+}
+
+.modal.show .modal-content {
+    opacity: 1;
+    /* Totalmente visible */
+    transform: translateY(0);
+    /* Regresa a su posición original */
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
