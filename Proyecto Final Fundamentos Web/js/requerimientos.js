@@ -28,6 +28,7 @@ function validarFormulario() {
         return false;
     }
 
+    // Guardar información en un objeto
     return {
         nombre,
         apellido,
@@ -40,15 +41,33 @@ function validarFormulario() {
     };
 }
 
-// Función para mostrar el mensaje de éxito
+// Función para mostrar el mensaje de éxito con información del cliente
 function mostrarMensajeExito(recogerEnTienda) {
+    const requerimiento = JSON.parse(localStorage.getItem('requerimiento'));
+    let mensaje;
+
     if (recogerEnTienda) {
-        alert('¡Enhorabuena! Tus productos serán entregados en nuestras sucursales; visita tu sucursal más cercana.');
+        mensaje = '¡Enhorabuena! Tus productos serán entregados en nuestras sucursales; visita tu sucursal más cercana.';
     } else {
-        alert('Listo, ahora puedes recibir tus productos en casa; a continuación selecciona tus productos.');
+        mensaje = 'Listo, ahora puedes recibir tus productos en casa; a continuación selecciona tus productos.';
     }
 
-    document.getElementById('mensajeExito').style.display = 'block';
+    // Mostrar mensaje de éxito con información del cliente
+    const mensajeCompleto = `
+        ${mensaje}
+        <br><br>
+        Información del cliente:<br>
+        Nombre: ${requerimiento.nombre}<br>
+        Apellido: ${requerimiento.apellido}<br>
+        Email: ${requerimiento.email}<br>
+        Dirección: ${requerimiento.direccion}<br>
+        Método de Envío: ${requerimiento.domicilio ? 'Envío a domicilio' : 'Recoger en tienda'}
+    `;
+
+    // Mostrar en un elemento específico
+    const mensajeDiv = document.getElementById('mensajeExito');
+    mensajeDiv.innerHTML = mensajeCompleto;
+    mensajeDiv.style.display = 'block';
 }
 
 // Función para limpiar el formulario y ocultar el mensaje de éxito
@@ -63,6 +82,8 @@ document.getElementById('requerimientosForm').addEventListener('submit', functio
 
     const validacion = validarFormulario();
     if (validacion) {
+        // Guardar en localStorage
+        localStorage.setItem('requerimiento', JSON.stringify(validacion));
         mostrarMensajeExito(validacion.recogerEnTienda);
         this.reset(); // Restablece el formulario después de mostrar el mensaje
     }
