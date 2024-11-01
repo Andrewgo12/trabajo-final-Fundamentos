@@ -56,13 +56,6 @@ header {
     /* Alinear al top */
     border: 2px solid #2ECC71;
     /* Borde verde */
-    transition: background-color 0.3s;
-}
-
-/* Efecto hover en el menú lateral */
-#menu-lateral:hover {
-    background-color: #2C3E50;
-    /* Color de fondo al pasar el ratón */
 }
 
 /*=========== Estilo de inputs y botones en el menú lateral ===========*/
@@ -77,16 +70,6 @@ header {
     border-radius: 5px;
     font-size: 14px;
     /* Tamaño de fuente más pequeño */
-    border: 2px solid #2980B9;
-    /* Borde azul */
-    transition: border-color 0.3s;
-    /* Transición de borde */
-}
-
-#menu-lateral input[type="text"]:focus,
-#menu-lateral input[type="number"]:focus {
-    border-color: #3498DB;
-    /* Color de borde al enfocar */
 }
 
 /* ===========Estilo específico para el buscador y el botón de filtro=========== */
@@ -95,15 +78,6 @@ header {
     /* Color del buscador */
     color: #34495E;
     /* Color del texto del buscador */
-    border: 2px solid #2ECC71;
-    /* Borde verde */
-    transition: border-color 0.3s;
-    /* Transición de borde */
-}
-
-#buscador:focus {
-    border-color: #27ae60;
-    /* Borde al enfocar */
 }
 
 #filterButton {
@@ -113,8 +87,6 @@ header {
     cursor: pointer;
     transition: background-color 0.3s;
     /* Animación al pasar el ratón */
-    border: 2px solid #27ae60;
-    /* Borde más oscuro */
 }
 
 /* ===========Efecto hover en el botón de filtro ===========*/
@@ -134,13 +106,6 @@ header {
     padding: 6px 0;
     /* Ajustar padding */
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-    transition: background-color 0.3s;
-    /* Transición de fondo */
-}
-
-#menu-lateral ul li:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    /* Color de fondo al pasar el ratón */
 }
 
 #contenedorProductos {
@@ -180,14 +145,12 @@ header {
     /* Efecto de aumento al pasar el ratón */
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     /* Sombra al pasar el ratón */
-    border-color: #2ECC71;
-    /* Cambiar borde al pasar el ratón */
 }
 
 .producto img {
-    width: 80px;
+    width: 200px;
     /* Tamaño de imagen más pequeño */
-    height: 80px;
+    height: 200px;
     /* Tamaño de imagen más pequeño */
     object-fit: cover;
     border-radius: 50%;
@@ -204,80 +167,72 @@ header {
     /* Reducir espacio entre productos */
 }
 
-/* =========== Estilo general de los botones =========== */
+/* ===========Estilo general de los botones ===========*/
 .boton-menu,
 .boton-ver-detalles,
 .boton-agregar-carrito {
-    background-color: #5E35B1;
+    background-color: #4A148C;
     /* Color de fondo */
     color: #ffffff;
     /* Color del texto */
-    padding: 14px 24px;
+    padding: 12px 20px;
     /* Espaciado interno */
-    border: 2px solid #8E44AD;
-    /* Borde púrpura */
-    border-radius: 8px;
+    border: none;
+    /* Sin borde */
+    border-radius: 5px;
     /* Bordes redondeados */
     font-size: 16px;
     /* Tamaño de fuente */
     cursor: pointer;
     /* Cambia el cursor al pasar el ratón */
-    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    transition: background-color 0.3s, transform 0.2s;
     /* Animaciones */
     margin-right: 10px;
     /* Espacio a la derecha */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    /* Sombra suave */
 }
 
 /* Estilos para los botones en hover */
 .boton-menu:hover,
 .boton-ver-detalles:hover,
 .boton-agregar-carrito:hover {
-    background-color: #7B1FA2;
+    background-color: #6A1B9A;
     /* Color más claro al pasar el ratón */
     transform: scale(1.05);
     /* Aumento al pasar el ratón */
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-    /* Sombra más pronunciada */
 }
 
-/* =========== Estilo para los botones de acción =========== */
+/* ===========Estilo para los botones de acción ===========*/
 .boton-detalles,
 .boton-agregar,
 .modal-content .boton {
-    background-color: #00BFFF;
+    background-color: #3498db;
     /* Color de fondo de los botones */
     border: none;
     /* Sin borde */
-    color: #ffffff;
+    color: white;
     /* Color del texto */
-    padding: 12px 20px;
+    padding: 10px 15px;
     /* Espaciado interno */
-    border-radius: 8px;
+    border-radius: 5px;
     /* Bordes redondeados */
     cursor: pointer;
     /* Cambia el cursor al pasar el ratón */
-    font-size: 16px;
+    font-size: 14px;
     /* Tamaño de fuente */
-    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    transition: background-color 0.3s, transform 0.3s;
     /* Animaciones */
     margin: 5px;
     /* Margen para separación */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    /* Sombra suave */
 }
 
-/* =========== Efecto hover en los botones =========== */
+/* ===========Efecto hover en los botones ===========*/
 .boton-detalles:hover,
 .boton-agregar:hover,
 .modal-content .boton:hover {
-    background-color: #008CBA;
+    background-color: #2980b9;
     /* Color más oscuro al pasar el ratón */
     transform: scale(1.05);
     /* Aumento al pasar el ratón */
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-    /* Sombra más pronunciada */
 }
 
 /*=========== Estilo para la modal ===========*/
@@ -285,80 +240,174 @@ header {
     display: none;
     /* Ocultar por defecto */
     position: fixed;
-    /* Fijar en la ventana */
-    z-index: 999;
-    /* Asegurar que esté por encima */
-    left: 0;
-    /* Alinear a la izquierda */
-    top: 0;
-    /* Alinear al top */
-    width: 100%;
-    /* Ancho completo */
-    height: 100%;
-    /* Alto completo */
-    overflow: auto;
-    /* Scroll si es necesario */
-    background-color: rgb(0, 0, 0);
-    /* Color de fondo negro */
-    background-color: rgba(0, 0, 0, 0.4);
-    /* Fondo negro con opacidad */
-}
-
-/* ===========Contenido de la modal ===========*/
-.modal-content {
-    background-color: #fefefe;
-    /* Color de fondo de la modal */
-    margin: 15% auto;
-    /* Margen para centrar */
-    padding: 20px;
-    /* Padding */
-    border: 1px solid #888;
-    /* Borde de la modal */
-    width: 80%;
-    /* Ancho */
+    /* Fijar en la pantalla */
+    z-index: 1000;
+    /* Asegurarse que esté encima de otros elementos */
+    right: 0;
+    /* Posicionar a la derecha */
+    top: 50%;
+    /* Centrar verticalmente */
+    transform: translateY(-50%);
+    /* Ajustar para centrar */
+    width: 300px;
+    /* Ancho fijo de 300px */
+    max-width: 500px;
+    /* Ancho máximo de 500px */
+    background-color: rgba(120, 255, 224, 0.9);
+    /* Fondo de la modal */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    /* Sombra */
     border-radius: 10px;
     /* Bordes redondeados */
+    padding: 20px;
+    /* Espaciado interno */
 }
 
-/* ===========Botón de cerrar la modal ===========*/
+/*=========== Estilo para cerrar la modal=========== */
 .close {
-    color: #aaa;
+    color: #ff4d4d;
     /* Color del botón de cerrar */
     float: right;
     /* Alinear a la derecha */
     font-size: 28px;
-    /* Tamaño de fuente */
+    /* Tamaño de letra */
     font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-    color: black;
-    /* Color negro al pasar el ratón */
-    text-decoration: none;
-    /* Sin subrayado */
+    /* Negrita */
     cursor: pointer;
+    /* Cambiar cursor al pasar el ratón */
 }
 
-/* ===========Pie de página ===========*/
+/* ===========Estilo para el título del producto===========*/
+.modal-content h2 {
+    font-size: 16px;
+    /* Tamaño de fuente */
+    margin: 0;
+    /* Sin margen */
+}
+
+/*=========== Estilo para la imagen del producto ===========*/
+.modal-content img {
+    max-width: 100%;
+    /* La imagen no superará el ancho del contenedor */
+    height: auto;
+    /* Mantener la proporción */
+    border-radius: 5px;
+    /* Bordes redondeados para la imagen */
+}
+
+/* ===========Estilo para la descripción del producto ===========*/
+.modal-content p {
+    font-size: 12px;
+    /* Tamaño de texto más pequeño */
+    color: #333;
+    /* Color del texto */
+    margin: 5px 0;
+    /* Margen superior e inferior */
+}
+
+/*=========== Estilo para la ventana emergente=========== */
+.ventana {
+    display: none;
+    /* Ocultar inicialmente */
+    position: fixed;
+    /* Fijar la ventana en la pantalla */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    /* Fondo semi-transparente */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.contenidoVentana {
+    background-color: #ffffff;
+    /* Fondo blanco para el contenido */
+    padding: 20px;
+    /* Reducir espaciado interno */
+    border-radius: 10px;
+    /* Bordes redondeados */
+    position: relative;
+    width: 450px;
+    /* Ancho fijo para el contenido */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    /* Sombra */
+    animation: slideIn 0.5s ease;
+    /* Animación de aparición */
+}
+
+/* ===========Animación de entrada ===========*/
+@keyframes slideIn {
+    from {
+        transform: translateY(-100%);
+        /* Comienza fuera de la pantalla */
+    }
+
+    to {
+        transform: translateY(0);
+        /* Termina en su posición original */
+    }
+}
+
+/* ===========Estilo de cierre para la ventana ===========*/
+.cerrarVentana {
+    position: absolute;
+    /* Posicionamiento absoluto para el botón de cierre */
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    /* Tamaño de fuente */
+    cursor: pointer;
+    /* Cambiar cursor al pasar el ratón */
+}
+
+/* ===========Estilo para el pie de página ===========*/
 footer {
-    background-color: #34495E;
-    color: #ECF0F1;
+    background-color: #4A148C;
+    /* Color de fondo del pie de página */
+    color: #ffffff;
     /* Color del texto del pie de página */
     text-align: center;
-    padding: 10px;
+    /* Alinear texto al centro */
+    padding: 15px;
     /* Ajustar padding */
     position: relative;
-    /* Para ajustar su posición */
-    margin-top: 20px;
-    /* Margen superior */
+    /* Ajustar su posición */
+    bottom: 0;
+    /* Posicionar al final */
+    left: 0;
+    /* Alinear a la izquierda */
+    width: 100%;
+    /* Ancho total */
+    box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.2);
+    /* Sombra superior */
 }
 
-/* ===========Animación para el pie de página ===========*/
-footer:hover {
-    transform: translateY(-2px);
-    transition: transform 0.3s;
-    /* Efecto de elevación al pasar el ratón */
+/* ===========Estilo para la parte de contacto ===========*/
+.contacto {
+    margin-top: 20px;
+    /* Espacio entre secciones */
+    text-align: center;
+    /* Alinear texto al centro */
+}
+
+/*=========== Estilo para los links ===========*/
+a {
+    color: #4CAF50;
+    /* Color de links */
+    text-decoration: none;
+    /* Sin subrayado */
+}
+
+a:hover {
+    text-decoration: underline;
+    /* Subrayar al pasar el ratón */
 }
 
 /* =========== Estilo General =========== */
