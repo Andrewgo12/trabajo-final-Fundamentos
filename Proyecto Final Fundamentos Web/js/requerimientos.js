@@ -4,37 +4,37 @@ function validarFormulario() {
     const apellido = document.getElementById('apellido').value.trim();
     const presupuesto = document.getElementById('presupuesto').value.trim();
     const email = document.getElementById('email').value.trim();
-    const CantidadPorductosrq = document.getElementById('CantidadPorductosrq').value.trim();
+    const cantidadProductos = document.getElementById('CantidadPorductosrq').value.trim();
     const direccion = document.getElementById('direccion').value.trim();
     const terminos = document.getElementById('aceptarTerminos').checked;
     const domicilio = document.getElementById('Domicilio').checked;
     const recogerEnTienda = document.getElementById('RecogerEnTienda').checked;
 
-    // Validar que todos los campos estén completos
-    if (!nombre || !apellido || !presupuesto || !email || !CantidadPorductosrq || !direccion) {
+    /*=========== Validar que todos los campos estén completos ===========*/
+    if (!nombre || !apellido || !presupuesto || !email || !cantidadProductos || !direccion) {
         alert('Todos los campos son obligatorios.');
         return false;
     }
 
-    // Validar términos y condiciones
+    /*=========== Validar términos y condiciones ===========*/
     if (!terminos) {
         alert('Debes aceptar los términos y condiciones.');
         return false;
     }
 
-    // Validar selección de método de envío
+    /*=========== Validar selección de método de envío ===========*/
     if (!domicilio && !recogerEnTienda) {
         alert('Debes seleccionar un método de envío.');
         return false;
     }
 
-    // Guardar información en un objeto
+    /*=========== Guardar información en un objeto ===========*/
     return {
         nombre,
         apellido,
         presupuesto,
         email,
-        CantidadPorductosrq,
+        cantidadProductos,
         direccion,
         domicilio,
         recogerEnTienda
@@ -52,7 +52,7 @@ function mostrarMensajeExito(recogerEnTienda) {
         mensaje = 'Listo, ahora puedes recibir tus productos en casa; a continuación selecciona tus productos.';
     }
 
-    // Mostrar mensaje de éxito con información del cliente
+    /*=========== Mostrar mensaje de éxito con información del cliente ===========*/
     const mensajeCompleto = `
         ${mensaje}
         <br><br>
@@ -60,11 +60,13 @@ function mostrarMensajeExito(recogerEnTienda) {
         Nombre: ${requerimiento.nombre}<br>
         Apellido: ${requerimiento.apellido}<br>
         Email: ${requerimiento.email}<br>
+        Presupuesto: ${requerimiento.presupuesto}<br>
+        Cantidad de Productos: ${requerimiento.cantidadProductos}<br>
         Dirección: ${requerimiento.direccion}<br>
         Método de Envío: ${requerimiento.domicilio ? 'Envío a domicilio' : 'Recoger en tienda'}
     `;
 
-    // Mostrar en un elemento específico
+    /*=========== Mostrar en un elemento específico ===========*/
     const mensajeDiv = document.getElementById('mensajeExito');
     mensajeDiv.innerHTML = mensajeCompleto;
     mensajeDiv.style.display = 'block';
@@ -72,8 +74,10 @@ function mostrarMensajeExito(recogerEnTienda) {
 
 // Función para limpiar el formulario y ocultar el mensaje de éxito
 function limpiarFormulario() {
-    document.getElementById('requerimientosForm').reset(); // Restablece los campos del formulario
-    document.getElementById('mensajeExito').style.display = 'none'; // Oculta el mensaje de éxito
+    /*=========== Restablece los campos del formulario ===========*/
+    document.getElementById('requerimientosForm').reset(); 
+    /*=========== Oculta el mensaje de éxito ===========*/
+    document.getElementById('mensajeExito').style.display = 'none'; 
 }
 
 // Evento para el envío del formulario
@@ -82,7 +86,7 @@ document.getElementById('requerimientosForm').addEventListener('submit', functio
 
     const validacion = validarFormulario();
     if (validacion) {
-        // Guardar en localStorage
+        /*=========== Guardar en localStorage ===========*/
         localStorage.setItem('requerimiento', JSON.stringify(validacion));
         mostrarMensajeExito(validacion.recogerEnTienda);
         this.reset(); // Restablece el formulario después de mostrar el mensaje
@@ -91,3 +95,4 @@ document.getElementById('requerimientosForm').addEventListener('submit', functio
 
 // Evento para el botón "Limpiar campos"
 document.querySelector('button[type="button"]').addEventListener('click', limpiarFormulario);
+
