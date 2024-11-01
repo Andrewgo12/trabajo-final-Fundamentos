@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito de Compras</title>
+    <link rel="stylesheet" href="../css/carrito.css">
+</head>
+
+<body>
+    <main id="carritoCompras" class="ventana">
+        <header>
+            <h2><strong>Carrito de Compras</strong></h2>
+        </header>
+
+        <section id="comprasactuales">
+            <div id="productos">
+                <table>
+                    <thead>
+                        <tr>
+                            <th><strong>Producto</strong></th>
+                            <th><strong>Cantidad</strong></th>
+                            <th><strong>Precio</strong></th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaCarrito">
+                        <!-- Aquí se llenará la tabla del carrito -->
+                    </tbody>
+                </table>
+            </div>
+
+            <section id="informacioncarrito">
+                <p>Total Compra: <span id="totalCompra">$0</span></p>
+                <p>Cantidad de Productos: <span id="cantidadProductos">0</span></p>
+            </section>
+
+            <section id="Boton_Acciones">
+                <button id="cancelarCompraBtn" onclick="vaciarCarrito()">Cancelar Compra</button>
+                <button id="seguirComprandoBtn" onclick="location.href='productos.html'">Seguir Comprando</button>
+            </section>
+        </section>
+
+        <aside id="metodoPagoYImagen">
+            <div id="metodosPago">
+                <h1><strong>Información de Pago</strong></h1>
+                <fieldset class="contenedor-checkbox">
+                    <legend><strong>Seleccione un método de pago</strong></legend>
+                    <label>
+                        <input type="checkbox" id="Pago_efectivo" aria-label="Pago contra entrega">
+                        Pago contra entrega
+                    </label>
+                    <label>
+                        <input type="checkbox" id="Pago_con_tarjeta" aria-label="Pago con tarjeta">
+                        Pago con tarjeta
+                    </label>
+                </fieldset>
+                <button id="confirmacionMePgo">Confirmar método de pago</button>
+            </div>
+
+            <div id="infotargeta" class="oculto">
+                <h3><strong>Información de Tarjeta</strong></h3>
+                <input type="text" id="numeroTarjeta" placeholder="Número de tarjeta" aria-label="Número de tarjeta"
+                    required>
+                <input type="text" id="fechaExpiracion" placeholder="MM/AA" aria-label="Fecha de expiración" required>
+                <input type="text" id="codigoSeguridad" placeholder="Código de seguridad"
+                    aria-label="Código de seguridad" required>
+                <input type="text" id="nombreTitular" placeholder="Nombre del titular" aria-label="Nombre del titular"
+                    required>
+                <select id="paisEmision" aria-label="País de emisión" required>
+                    <option value="">Seleccionar país</option>
+                    <option value="CO">Colombia</option>
+                    <option value="MX">México</option>
+                    <option value="AR">Argentina</option>
+                    <option value="ES">España</option>
+                    <option value="PE">Perú</option>
+                    <option value="CL">Chile</option>
+                    <option value="US">Estados Unidos</option>
+                    <option value="BR">Brasil</option>
+                    <option value="VE">Venezuela</option>
+                    <option value="EC">Ecuador</option>
+                </select>
+                <select id="tipoTarjeta" aria-label="Tipo de tarjeta" required>
+                    <option value="">Seleccionar tipo de tarjeta</option>
+                    <option value="visa">Visa</option>
+                    <option value="mastercard">Mastercard</option>
+                    <option value="prepagada">Prepagada</option>
+                </select>
+            </div>
+
+            <div id="carrito">
+                <h2>Detalles del Comprador</h2>
+                <fieldset>
+                    <p>Nombre: <span id="nombreCarrito"></span></p>
+                    <p>Apellido: <span id="apellidoCarrito"></span></p>
+                    <p>Presupuesto: <span id="presupuestoCarrito"></span></p>
+                    <p>Email: <span id="emailCarrito"></span></p>
+                    <p>Cantidad de Productos: <span id="cantidadProductosCarrito"></span></p>
+                    <p>Dirección: <span id="direccionCarrito"></span></p>
+                </fieldset>
+            </div>
+
+            <div id="botonesConfirmar">
+                <button id="limpiarCamposBtn">Limpiar Campos</button>
+                <button id="confirmarCompraBtn">Confirmar Compra</button>
+                <p id="mensajeEstado" class="oculto"></p>
+            </div>
+        </aside>
+    </main>
+
+    <script src="../js/Carrito.js"></script>
+    <script src="../js/Productos.js"></script>
+</body>
+
+</html>
