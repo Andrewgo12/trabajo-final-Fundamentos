@@ -14,29 +14,41 @@
         <h1>Catálogo de Productos de Limpieza</h1>
         <h4>¡Bienvenidos! Estamos para servirle</h4>
         <p>A continuación, le presentamos nuestro catálogo de productos.</p>
+        <button id="CarritoCompras" onclick="location.href='Carrito.html'">Ir al Carrito</button>
     </header>
 
     <div id="contenedor">
+        <!--=========== SECCIÓN DEL MENÚ LATERAL ===========-->
         <aside id="menu-lateral">
             <h1>Menú</h1>
             <input type="text" id="buscador" placeholder="Buscar productos..." aria-label="Buscar productos">
-            <input type="number" id="min-precio" placeholder="Precio mínimo" aria-label="Precio mínimo">
-            <input type="number" id="max-precio" placeholder="Precio máximo" aria-label="Precio máximo">
-            <button id="filterButton" aria-label="Filtrar productos">Filtrar</button>
-            <h2>Categorías</h2>
-            <ul>
-                <li>Productos de limpieza general</li>
-                <li>Desinfectantes</li>
-                <li>Detergentes</li>
-                <li>Desengrasantes</li>
-                <li>Productos para el hogar</li>
-            </ul>
+            <input type="number" id="min-precio" placeholder="Precio mínimo" aria-label="Precio mínimo"><br>
+            <input type="number" id="max-precio" placeholder="Precio máximo" aria-label="Precio máximo"><br>
+            <button id="filterButton" aria-label="Filtrar productos">Filtrar</button><br>
+            <button id="clearFilters" aria-label="Limpiar filtros">Limpiar Filtros</button>
+            <button id="cancelarCompraBtn" aria-label="Cancelar compra">Cancelar Compra</button>
         </aside>
 
+        <!--=========== SECCIÓN DE PRODUCTOS ===========-->
         <main id="productos">
-            <!-- Se agregarán dinámicamente los productos aquí -->
+            <div id="contenedorProductos">
+                <!-- Aquí se agregarán dinámicamente los productos -->
+            </div>
         </main>
 
+        <!--=========== MODAL PARA DETALLES DEL PRODUCTO ===========-->
+        <div id="modalProducto" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="cerrarModal()">&times;</span>
+                <img id="imagenProducto" alt="Imagen del producto">
+                <h2 id="nombreProducto"></h2>
+                <p id="descripcionProducto"></p>
+                <p>Precio: $<span id="precioProducto"></span></p>
+                <p>Cantidad disponible: <span id="cantidadProducto"></span></p>
+            </div>
+        </div>
+
+        <!--=========== SECCIÓN DE ANUNCIOS ===========-->
         <aside id="anuncios">
             <h2>Anuncios</h2>
             <p>¡Aproveche nuestras ofertas especiales en productos de limpieza!</p>
@@ -49,12 +61,12 @@
             </div>
             <button class="boton" onclick="mostrarTestimonios()">Ver Testimonios</button>
             <button class="boton" onclick="mostrarAyuda()">Necesito Ayuda</button>
-            <section id="testimonios" class="oculto">
+            <section id="testimonios" class="oculto" style="display: none;">
                 <h3>Testimonios de Clientes</h3>
                 <p>"Excelente servicio y productos de alta calidad!" - Juan P.</p>
                 <p>"Siempre encuentro lo que necesito aquí." - Ana G.</p>
             </section>
-            <section id="ayuda" class="oculto">
+            <section id="ayuda" class="oculto" style="display: none;">
                 <h3>Ayuda</h3>
                 <p>Si tiene alguna pregunta, no dude en contactarnos al <a href="tel:1234567890">123-456-7890</a>.</p>
                 <p>O envíenos un correo a: <a href="mailto:ayuda@productoslimpieza.com">ayuda@productoslimpieza.com</a>
@@ -63,21 +75,27 @@
         </aside>
     </div>
 
-    <article id="ventanaDetalles" class="ventana oculto">
-        <section id="ventanaProducto">
-            <div class="contenidoVentana">
-                <button id="cerrarVentana" class="cerrar" aria-label="Cerrar ventana">&times;</button>
-                <img id="imagenProductoVentana" src="" alt="">
-                <h3 id="nombreProductoVentana"></h3>
-                <p id="precioProductoVentana"></p>
-                <p id="cantidadProductoVentana"></p>
-                <p id="categoriaProductoVentana"></p>
+    <!--=========== SECCIÓN DEL PIE DE PÁGINA ===========-->
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2024 Catálogo de Productos de Limpieza. Todos los derechos reservados.</p>
+            <p>Contáctanos: <a href="mailto:info@productoslimpieza.com">info@productoslimpieza.com</a> | Teléfono: <a
+                    href="tel:1234567890">123-456-7890</a></p>
+            <p>Síguenos en nuestras redes sociales:</p>
+            <div class="social-media">
+                <a href="#" aria-label="Facebook"><img src="facebook-icon.png" alt="Facebook"></a>
+                <a href="#" aria-label="Twitter"><img src="twitter-icon.png" alt="Twitter"></a>
+                <a href="#" aria-label="Instagram"><img src="instagram-icon.png" alt="Instagram"></a>
             </div>
-        </section>
-    </article>
+        </div>
+    </footer>
 
+    <!--=========== ENLACES A ARCHIVOS JS ===========-->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="../js/Productos.js"></script>
+    <script src="../js/Carrito.js"></script>
     <script src="../js/interacciones.js"></script>
+
 </body>
 
 </html>
