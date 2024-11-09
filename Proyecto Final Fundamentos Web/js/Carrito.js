@@ -212,5 +212,11 @@ function mostrarInformacionFactura() {
     }
 }
 
+document.getElementById('Pago_con_tarjeta').addEventListener('change', function () {
+    document.getElementById('infotargeta').classList.remove('oculto');
+});
+document.getElementById('Pago_efectivo').addEventListener('change', function () {
+    document.getElementById('infotargeta').classList.add('oculto');
+});
 /*=========== Llamar a la función para mostrar información en el carrito al cargar la página ===========*/
 document.addEventListener('DOMContentLoaded', mostrarInformacionComprador);
