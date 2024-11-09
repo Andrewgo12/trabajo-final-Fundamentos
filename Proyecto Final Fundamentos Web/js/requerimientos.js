@@ -1,4 +1,3 @@
-// Función para validar el formulario
 function validarFormulario() {
     const nombre = document.getElementById('nombre').value.trim();
     const apellido = document.getElementById('apellido').value.trim();
@@ -13,6 +12,26 @@ function validarFormulario() {
     /*=========== Validar que todos los campos estén completos ===========*/
     if (!nombre || !apellido || !presupuesto || !email || !cantidadProductos || !direccion) {
         alert('Todos los campos son obligatorios.');
+        return false;
+    }
+
+    /*=========== Validar longitud del nombre ===========*/
+    if (nombre.length > 20) {
+        alert('El nombre no puede superar los 20 caracteres.');
+        return false;
+    }
+
+    /*=========== Validar formato del presupuesto ===========*/
+    const presupuestoNumero = parseFloat(presupuesto.replace(/[^0-9.-]+/g, ""));
+    if (isNaN(presupuestoNumero) || presupuestoNumero <= 0) {
+        alert('El presupuesto debe ser un número positivo y estar formateado en pesos.');
+        return false;
+    }
+
+    /*=========== Validar cantidad de productos ===========*/
+    const cantidadProductosNumero = parseInt(cantidadProductos);
+    if (isNaN(cantidadProductosNumero) || cantidadProductosNumero <= 0 || cantidadProductosNumero > 20) {
+        alert('La cantidad de productos debe ser un número positivo y no puede ser superior a 20.');
         return false;
     }
 
