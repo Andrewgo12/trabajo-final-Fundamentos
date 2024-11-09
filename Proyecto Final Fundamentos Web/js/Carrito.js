@@ -130,24 +130,37 @@ function confirmarMetodoPago() {
 /*=========== Confirmar compra ===========*/
 function confirmarCompra() {
     const metodoPago = localStorage.getItem('metodo-pago'); // Obtiene el método de pago guardado en localStorage.
+    const requerimiento = JSON.parse(localStorage.getItem('requerimiento')); // Obtiene la información del formulario del cliente.
 
     if (carrito.carrito.length === 0) {
         alert("El carrito está vacío."); // Muestra un mensaje si el carrito está vacío.
         return;
     }
 
-    let factura = "----- Factura de Compra -----\n"; // Inicializa la factura como una cadena vacía.
+    // Calcula el total de la compra y la cantidad total de productos en el carrito.
+    const totalCompra = carrito.carrito.reduce((acc, producto) => acc + producto.precio * producto.cantidad, 0);
+    const cantidadTotalProductos = carrito.carrito.reduce((acc, producto) => acc + producto.cantidad, 0);
 
-    const total = carrito.carrito.reduce((acc, producto) => acc + producto.precio * producto.cantidad, 0); // Calcula el total de la compra.
-    const cantidadProductos = carrito.carrito.reduce((acc, producto) => acc + producto.cantidad, 0); // Calcula la cantidad de productos.
+    // Validación de presupuesto
+    if (totalCompra > parseFloat(requerimiento.presupuesto)) {
+        alert("El total de la compra excede el presupuesto especificado.");
+        return;
+    }
 
-    factura += `Total a pagar: $${total.toLocaleString('es-CO')}\n`; // Agrega el total a la factura.
-    factura += `Cantidad de productos: ${cantidadProductos}\n`; // Agrega la cantidad de productos a la factura.
-    factura += `Método de pago: ${metodoPago}\n`; // Agrega el método de pago a la factura.
-    factura += "\nProductos:\n"; // Agrega un título para la lista de productos.
+    // Validación de cantidad de productos
+    if (cantidadTotalProductos > parseInt(requerimiento.cantidadProductos)) {
+        alert("La cantidad de productos en el carrito excede la cantidad especificada.");
+        return;
+    }
+
+    let factura = "----- Factura de Compra -----\n";
+    factura += `Total a pagar: $${totalCompra.toLocaleString('es-CO')}\n`;
+    factura += `Cantidad de productos: ${cantidadTotalProductos}\n`;
+    factura += `Método de pago: ${metodoPago}\n`;
+    factura += "\nProductos:\n";
 
     carrito.carrito.forEach(producto => {
-        factura += `- ${producto.nombre} x${producto.cantidad} - $${(producto.precio * producto.cantidad).toLocaleString('es-CO')}\n`; // Agrega cada producto a la factura.
+        factura += `- ${producto.nombre} x${producto.cantidad} - $${(producto.precio * producto.cantidad).toLocaleString('es-CO')}\n`;
     });
 
     alert(factura); // Muestra la factura completa.
@@ -169,7 +182,7 @@ document.getElementById("confirmarCompraBtn").addEventListener("click", confirma
 
 /*=========== Mostrar información del comprador ===========*/
 function mostrarInformacionComprador() {
-    const requerimiento = JSON.parse(localStorage.getItem('requerimiento')); // Obtiene la información del comprador guardada en localStorage.
+    const requerimiento = JSON.parse(localStorage.getItem('requerimientos')); // Obtiene la información del comprador guardada en localStorage.
 
     if (requerimiento) {
         document.getElementById('nombreCarrito ').textContent = requerimiento.nombre; // Muestra el nombre del comprador.
@@ -180,6 +193,22 @@ function mostrarInformacionComprador() {
         document.getElementById('direccionCarrito').textContent = requerimiento.direccion; // Muestra la dirección del comprador.
     } else {
         document.getElementById('carrito').innerHTML = '<p>No se encontraron detalles del comprador.</p>'; // Muestra un mensaje si no hay información del comprador.
+    }
+}
+
+/*=========== Mostrar información del comprador en la factura ===========*/
+function mostrarInformacionFactura() {
+    const requerimiento = JSON.parse(localStorage.getItem('requerimientos')); // Obtiene la información del comprador guardada en localStorage.
+
+    if (requerimiento) {
+        document.getElementById('nombreFactura').textContent = requerimiento.nombre; // Muestra el nombre en la factura.
+        document.getElementById('apellidoFactura').textContent = requerimiento.apellido; // Muestra el apellido en la factura.
+        document.getElementById('presupuestoFactura').textContent = requerimiento.presupuesto; // Muestra el presupuesto en la factura.
+        document.getElementById('emailFactura').textContent = requerimiento.email; // Muestra el email en la factura.
+        document.getElementById('cantidadProductosFactura').textContent = requerimiento.cantidadProductos; // Muestra la cantidad de productos en la factura.
+        document.getElementById('direccionFactura').textContent = requerimiento.direccion; // Muestra la dirección en la factura.
+    } else {
+        document.getElementById('factura').innerHTML = '<p>No se encontraron detalles del comprador.</p>'; // Muestra un mensaje si no hay información en la factura.
     }
 }
 
