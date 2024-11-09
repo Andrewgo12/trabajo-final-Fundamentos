@@ -174,27 +174,8 @@ function vaciarCarrito() {
     mostrarCarrito(); // Actualiza la vista del carrito.
 }
 
-/*=========== Manejo de eventos ===========*/
-document.addEventListener("DOMContentLoaded", mostrarCarrito); // Muestra el carrito al cargar la página.
-document.getElementById("confirmacionMePgo").addEventListener("click", confirmarMetodoPago); // Asigna el evento de confirmación de método de pago.
-document.getElementById("cancelarCompraBtn").addEventListener("click", vaciarCarrito); // Asigna el evento de cancelación de compra.
-document.getElementById("confirmarCompraBtn").addEventListener("click", confirmarCompra); // Asigna el evento de confirmación de compra.
 
-/*=========== Mostrar información del comprador ===========*/
-function mostrarInformacionComprador() {
-    const requerimiento = JSON.parse(localStorage.getItem('requerimientos')); // Obtiene la información del comprador guardada en localStorage.
 
-    if (requerimiento) {
-        document.getElementById('nombreCarrito ').textContent = requerimiento.nombre; // Muestra el nombre del comprador.
-        document.getElementById('apellidoCarrito').textContent = requerimiento.apellido; // Muestra el apellido del comprador.
-        document.getElementById('presupuestoCarrito').textContent = requerimiento.presupuesto; // Muestra el presupuesto del comprador.
-        document.getElementById('emailCarrito').textContent = requerimiento.email; // Muestra el correo electrónico del comprador.
-        document.getElementById('cantidadProductosCarrito').textContent = requerimiento.cantidadProductos; // Muestra la cantidad de productos del comprador.
-        document.getElementById('direccionCarrito').textContent = requerimiento.direccion; // Muestra la dirección del comprador.
-    } else {
-        document.getElementById('carrito').innerHTML = '<p>No se encontraron detalles del comprador.</p>'; // Muestra un mensaje si no hay información del comprador.
-    }
-}
 
 /*=========== Mostrar información del comprador en la factura ===========*/
 function mostrarInformacionFactura() {
@@ -211,6 +192,26 @@ function mostrarInformacionFactura() {
         document.getElementById('factura').innerHTML = '<p>No se encontraron detalles del comprador.</p>'; // Muestra un mensaje si no hay información en la factura.
     }
 }
+/*=========== Mostrar información del comprador ===========*/
+function mostrarInformacionComprador() {
+    const requerimiento = JSON.parse(localStorage.getItem('requerimiento')); // Cambié 'requerimientos' a 'requerimiento'
+
+    if (requerimiento) {
+        document.getElementById('nombreCarrito').textContent = requerimiento.nombre; // Muestra el nombre del comprador.
+        document.getElementById('apellidoCarrito').textContent = requerimiento.apellido; // Muestra el apellido del comprador.
+        document.getElementById('presupuestoCarrito').textContent = requerimiento.presupuesto; // Muestra el presupuesto del comprador.
+        document.getElementById('emailCarrito').textContent = requerimiento.email; // Muestra el correo electrónico del comprador.
+        document.getElementById('cantidadProductosCarrito').textContent = requerimiento.cantidadProductos; // Muestra la cantidad de productos del comprador.
+        document.getElementById('direccionCarrito').textContent = requerimiento.direccion; // Muestra la dirección del comprador.
+    } else {
+        document.getElementById('carrito').innerHTML = '<p>No se encontraron detalles del comprador.</p>'; // Muestra un mensaje si no hay información del comprador.
+    }
+}
+/*=========== Manejo de eventos ===========*/
+document.addEventListener("DOMContentLoaded", mostrarCarrito); // Muestra el carrito al cargar la página.
+document.getElementById("confirmacionMePgo").addEventListener("click", confirmarMetodoPago); // Asigna el evento de confirmación de método de pago.
+document.getElementById("cancelarCompraBtn").addEventListener("click", vaciarCarrito); // Asigna el evento de cancelación de compra.
+document.getElementById("confirmarCompraBtn").addEventListener("click", confirmarCompra); // Asigna el evento de confirmación de compra.
 
 document.getElementById('Pago_con_tarjeta').addEventListener('change', function () {
     document.getElementById('infotargeta').classList.remove('oculto');
