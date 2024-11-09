@@ -115,7 +115,6 @@ legend {
 input[type="text"],
 input[type="email"],
 input[type="number"],
-input[type="tel"],
 textarea {
     width: 90%;
     /* Ancho del campo */
@@ -164,9 +163,9 @@ textarea {
 }
 
 /* Botones de acción */
-/* Botones de acción */
 button {
     background-color: #ff0000;
+    /* Botón rojo */
     color: white;
     border: none;
     border-radius: 5px;
@@ -174,7 +173,8 @@ button {
     font-size: 1.2rem;
     cursor: pointer;
     transition: background-color 0.3s;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
+    /* Espacio adicional entre botones */
 }
 
 /* Efecto hover en los botones */
