@@ -197,3 +197,8 @@ select:focus {
 .oculto {
     display: none;
 }
+
+/* Estilos para ocultar elementos */
+.oculto {
+    display: none;
+}
