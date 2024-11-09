@@ -9,46 +9,46 @@ function validarFormulario() {
     const domicilio = document.getElementById('Domicilio').checked;
     const recogerEnTienda = document.getElementById('RecogerEnTienda').checked;
 
-    /*=========== Validar que todos los campos estén completos ===========*/
+    // Validación de campos requeridos
     if (!nombre || !apellido || !presupuesto || !email || !cantidadProductos || !direccion) {
         alert('Todos los campos son obligatorios.');
         return false;
     }
 
-    /*=========== Validar longitud del nombre ===========*/
+    // Validación de longitud del nombre
     if (nombre.length > 20) {
         alert('El nombre no puede superar los 20 caracteres.');
         return false;
     }
 
-    /*=========== Validar formato del presupuesto ===========*/
+    // Validación del presupuesto
     const presupuestoNumero = parseFloat(presupuesto.replace(/[^0-9.-]+/g, ""));
     if (isNaN(presupuestoNumero) || presupuestoNumero <= 0) {
         alert('El presupuesto debe ser un número positivo y estar formateado en pesos.');
         return false;
     }
 
-    /*=========== Validar cantidad de productos ===========*/
+    // Validación de la cantidad de productos
     const cantidadProductosNumero = parseInt(cantidadProductos);
     if (isNaN(cantidadProductosNumero) || cantidadProductosNumero <= 0 || cantidadProductosNumero > 20) {
         alert('La cantidad de productos debe ser un número positivo y no puede ser superior a 20.');
         return false;
     }
 
-    /*=========== Validar términos y condiciones ===========*/
+    // Validación de términos y condiciones
     if (!terminos) {
         alert('Debes aceptar los términos y condiciones.');
         return false;
     }
 
-    /*=========== Validar selección de método de envío ===========*/
+    // Validación de selección de método de envío
     if (!domicilio && !recogerEnTienda) {
         alert('Debes seleccionar un método de envío.');
         return false;
     }
 
-    /*=========== Guardar información en un objeto ===========*/
-    return {
+    // Guardar información en un objeto y en localStorage
+    const datos = {
         nombre,
         apellido,
         presupuesto,
@@ -58,20 +58,23 @@ function validarFormulario() {
         domicilio,
         recogerEnTienda
     };
+    localStorage.setItem('requerimiento', JSON.stringify(datos));
+
+    return datos;
 }
 
 // Función para mostrar el mensaje de éxito con información del cliente
-function mostrarMensajeExito(recogerEnTienda) {
+function mostrarMensajeExito() {
     const requerimiento = JSON.parse(localStorage.getItem('requerimiento'));
     let mensaje;
 
-    if (recogerEnTienda) {
+    if (requerimiento.recogerEnTienda) {
         mensaje = '¡Enhorabuena! Tus productos serán entregados en nuestras sucursales; visita tu sucursal más cercana.';
     } else {
         mensaje = 'Listo, ahora puedes recibir tus productos en casa; a continuación selecciona tus productos.';
     }
 
-    /*=========== Mostrar mensaje de éxito con información del cliente ===========*/
+    // Mostrar mensaje de éxito con información del cliente
     const mensajeCompleto = `
         ${mensaje}
         <br><br>
@@ -82,11 +85,11 @@ function mostrarMensajeExito(recogerEnTienda) {
         Presupuesto: ${requerimiento.presupuesto}<br>
         Cantidad de Productos: ${requerimiento.cantidadProductos}<br>
         Dirección: ${requerimiento.direccion}<br>
-        Método de Envío: ${requerimiento.domicilio ? 'Envío a domicilio' : 'Recoger en tienda'}
-        Redireccionamiento: <a href="../html/productos.html" class="btn">Ver Productos</a>
+        Método de Envío: ${requerimiento.domicilio ? 'Envío a domicilio' : 'Recoger en tienda'}<br>
+        <a href="../html/productos.html" class="btn">Ver Productos</a>
     `;
 
-    /*=========== Mostrar en un elemento específico ===========*/
+    // Mostrar en un elemento específico
     const mensajeDiv = document.getElementById('mensajeExito');
     mensajeDiv.innerHTML = mensajeCompleto;
     mensajeDiv.style.display = 'block';
@@ -94,25 +97,18 @@ function mostrarMensajeExito(recogerEnTienda) {
 
 // Función para limpiar el formulario y ocultar el mensaje de éxito
 function limpiarFormulario() {
-    /*=========== Restablece los campos del formulario ===========*/
     document.getElementById('requerimientosForm').reset();
-    /*=========== Oculta el mensaje de éxito ===========*/
     document.getElementById('mensajeExito').style.display = 'none';
+    localStorage.removeItem('requerimiento');
 }
 
 // Evento para el envío del formulario
 document.getElementById('requerimientosForm').addEventListener('submit', function (event) {
-    event.preventDefault(); // Evitar el envío del formulario hasta validar
-
+    event.preventDefault();
     const validacion = validarFormulario();
     if (validacion) {
-        /*=========== Guardar en localStorage ===========*/
-        localStorage.setItem('requerimiento', JSON.stringify(validacion));
-        mostrarMensajeExito(validacion.recogerEnTienda);
-        this.reset(); // Restablece el formulario después de mostrar el mensaje
+        mostrarMensajeExito();
     }
 });
 
-// Evento para el botón "Limpiar campos"
 document.querySelector('button[type="button"]').addEventListener('click', limpiarFormulario);
-
