@@ -96,3 +96,4 @@ document.getElementById('requerimientosForm').addEventListener('submit', functio
 
 // Evento para el botón "Limpiar campos"
 document.querySelector('button[type="button"]').addEventListener('click', limpiarFormulario);
+
