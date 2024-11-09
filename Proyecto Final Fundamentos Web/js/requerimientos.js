@@ -64,6 +64,7 @@ function mostrarMensajeExito(recogerEnTienda) {
         Cantidad de Productos: ${requerimiento.cantidadProductos}<br>
         Dirección: ${requerimiento.direccion}<br>
         Método de Envío: ${requerimiento.domicilio ? 'Envío a domicilio' : 'Recoger en tienda'}
+        Redireccionamiento: <a href="../html/productos.html" class="btn">Ver Productos</a>
     `;
 
     /*=========== Mostrar en un elemento específico ===========*/
@@ -75,9 +76,9 @@ function mostrarMensajeExito(recogerEnTienda) {
 // Función para limpiar el formulario y ocultar el mensaje de éxito
 function limpiarFormulario() {
     /*=========== Restablece los campos del formulario ===========*/
-    document.getElementById('requerimientosForm').reset(); 
+    document.getElementById('requerimientosForm').reset();
     /*=========== Oculta el mensaje de éxito ===========*/
-    document.getElementById('mensajeExito').style.display = 'none'; 
+    document.getElementById('mensajeExito').style.display = 'none';
 }
 
 // Evento para el envío del formulario
@@ -95,4 +96,3 @@ document.getElementById('requerimientosForm').addEventListener('submit', functio
 
 // Evento para el botón "Limpiar campos"
 document.querySelector('button[type="button"]').addEventListener('click', limpiarFormulario);
-
