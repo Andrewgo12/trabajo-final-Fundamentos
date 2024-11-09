@@ -469,7 +469,6 @@ function verDetalleProducto(productoId) {
         document.getElementById('descripcionProducto').innerText = producto.descripcion;
         document.getElementById('precioProducto').innerText = producto.precio.toLocaleString('es-CO');
         document.getElementById('cantidadProducto').innerText = producto.cantidad;
-
         // Mostrar la modal
         document.getElementById('modalProducto').style.display = 'block';
     }
