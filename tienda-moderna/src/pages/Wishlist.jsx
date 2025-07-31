@@ -7,7 +7,7 @@ import { useAuth } from '../context/AuthContext';
 import Button from '../components/ui/Button';
 import Card from '../components/ui/Card';
 import Badge from '../components/ui/Badge';
-import { useToast } from '../components/ui/Toast';
+import toast from 'react-hot-toast';
 import Breadcrumb from '../components/ui/Breadcrumb';
 import ErrorDisplay from '../components/ui/ErrorDisplay';
 import Loading from '../components/ui/Loading';
@@ -15,7 +15,7 @@ import Loading from '../components/ui/Loading';
 const Wishlist = () => {
   const { wishlist, removeFromWishlist, addToCart, clearWishlist } = useStore();
   const { isAuthenticated, showLoginModal } = useAuth();
-  const { addToast } = useToast();
+  // Toast notifications handled by context
 
   // Redirect if not authenticated
   if (!isAuthenticated) {
@@ -300,11 +300,7 @@ const Wishlist = () => {
                 wishlistItems.forEach(item => {
                   addToCart(item);
                 });
-                addToast({
-                  type: 'success',
-                  title: 'Productos agregados',
-                  message: 'Todos los productos han sido agregados al carrito'
-                });
+                toast.success('Todos los productos han sido agregados al carrito');
               }}
               className="btn btn-primary"
             >
@@ -325,11 +321,7 @@ const Wishlist = () => {
                 } else {
                   // Fallback to copy to clipboard
                   navigator.clipboard.writeText(window.location.href);
-                  addToast({
-                    type: 'success',
-                    title: 'Enlace copiado',
-                    message: 'El enlace de tu lista de deseos ha sido copiado'
-                  });
+                  toast.success('El enlace de tu lista de deseos ha sido copiado');
                 }
               }}
               className="btn btn-outline"
@@ -343,11 +335,7 @@ const Wishlist = () => {
               onClick={() => {
                 if (window.confirm('¿Estás seguro de que quieres limpiar toda tu lista de deseos?')) {
                   clearWishlist();
-                  addToast({
-                    type: 'info',
-                    title: 'Lista limpiada',
-                    message: 'Tu lista de deseos ha sido vaciada'
-                  });
+                  // Toast notification handled by context
                 }
               }}
               className="btn btn-outline text-red-600 hover:text-red-700"

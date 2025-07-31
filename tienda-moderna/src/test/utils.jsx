@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom'
 import { AuthProvider } from '../context/AuthContext'
 import { CartProvider } from '../context/CartContext'
 import { WishlistProvider } from '../context/WishlistContext'
-import { ToastProvider } from '../components/ui/Toast'
+import { Toaster } from 'react-hot-toast'
 
 // Custom render function with all providers
 export function renderWithProviders(ui, options = {}) {
@@ -16,15 +16,14 @@ export function renderWithProviders(ui, options = {}) {
   function Wrapper({ children }) {
     return (
       <BrowserRouter>
-        <ToastProvider>
-          <AuthProvider>
-            <CartProvider>
-              <WishlistProvider>
-                {children}
-              </WishlistProvider>
-            </CartProvider>
-          </AuthProvider>
-        </ToastProvider>
+        <AuthProvider>
+          <CartProvider>
+            <WishlistProvider>
+              {children}
+              <Toaster />
+            </WishlistProvider>
+          </CartProvider>
+        </AuthProvider>
       </BrowserRouter>
     )
   }
