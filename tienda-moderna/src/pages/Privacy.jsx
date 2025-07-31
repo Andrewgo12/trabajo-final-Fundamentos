@@ -4,6 +4,11 @@ import { ArrowLeft, Shield, Eye, Lock, Database, AlertCircle } from 'lucide-reac
 import { motion } from 'framer-motion';
 import Card from '../components/ui/Card';
 import Button from '../components/ui/Button';
+import Breadcrumb from '../components/ui/Breadcrumb';
+import Badge from '../components/ui/Badge';
+import Progress from '../components/ui/Progress';
+import Accordion from '../components/ui/Accordion';
+import Tooltip from '../components/ui/Tooltip';
 
 const Privacy = () => {
   const lastUpdated = '15 de enero de 2024';

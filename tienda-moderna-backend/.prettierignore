@@ -1,0 +1,55 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+build/
+
+# Logs
+logs/
+*.log
+
+# Coverage
+coverage/
+
+# Uploads
+uploads/
+test_uploads/
+
+# Database
+*.db
+*.sqlite
+
+# Environment files
+.env*
+
+# Prisma generated files
+prisma/generated/
+
+# Docker
+Dockerfile*
+docker-compose*.yml
+
+# Git
+.git/
+.gitignore
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary files
+tmp/
+temp/
+
+# Lock files
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Markdown files (optional)
+*.md

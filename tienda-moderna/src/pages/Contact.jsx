@@ -17,6 +17,18 @@ import Button from '../components/ui/Button';
 import Input from '../components/ui/Input';
 import Card from '../components/ui/Card';
 import Breadcrumb from '../components/ui/Breadcrumb';
+import Badge from '../components/ui/Badge';
+import Rating from '../components/ui/Rating';
+import Progress from '../components/ui/Progress';
+import Tooltip from '../components/ui/Tooltip';
+import Modal from '../components/ui/Modal';
+import Tabs from '../components/ui/Tabs';
+import Accordion from '../components/ui/Accordion';
+import Loading from '../components/ui/Loading';
+import ErrorDisplay from '../components/ui/ErrorDisplay';
+import Dropdown from '../components/ui/Dropdown';
+import SearchBar from '../components/ui/SearchBar';
+import Pagination from '../components/ui/Pagination';
 
 // Validation schema
 const contactSchema = z.object({
@@ -36,6 +48,21 @@ const Contact = () => {
   } = useForm({
     resolver: zodResolver(contactSchema),
   });
+
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [activeTab, setActiveTab] = useState('form');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+
+  // Simulate loading
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, []);
 
   const onSubmit = async (data) => {
     // Simulate form submission

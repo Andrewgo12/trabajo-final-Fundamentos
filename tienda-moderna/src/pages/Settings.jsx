@@ -33,6 +33,9 @@ import Button from '../components/ui/Button';
 import Input from '../components/ui/Input';
 import Card from '../components/ui/Card';
 import Badge from '../components/ui/Badge';
+import Breadcrumb from '../components/ui/Breadcrumb';
+import Tabs from '../components/ui/Tabs';
+import Modal from '../components/ui/Modal';
 
 // Validation schemas
 const profileSchema = z.object({
@@ -581,6 +584,16 @@ const Settings = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* Breadcrumb */}
+      <div className="bg-white border-b border-gray-100">
+        <div className="container-custom py-4">
+          <Breadcrumb items={[
+            { label: 'Mi Cuenta', href: '/profile' },
+            { label: 'Configuración' }
+          ]} />
+        </div>
+      </div>
+
       {/* Header */}
       <div className="bg-white border-b border-gray-200">
         <div className="container-custom py-8">

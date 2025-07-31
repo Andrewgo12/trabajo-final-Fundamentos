@@ -21,6 +21,16 @@ import Card from '../components/ui/Card';
 import Breadcrumb from '../components/ui/Breadcrumb';
 import Accordion from '../components/ui/Accordion';
 import Badge from '../components/ui/Badge';
+import Loading from '../components/ui/Loading';
+import ErrorDisplay from '../components/ui/ErrorDisplay';
+import Rating from '../components/ui/Rating';
+import Progress from '../components/ui/Progress';
+import Tooltip from '../components/ui/Tooltip';
+import Modal from '../components/ui/Modal';
+import Tabs from '../components/ui/Tabs';
+import Dropdown from '../components/ui/Dropdown';
+import SearchBar from '../components/ui/SearchBar';
+import Pagination from '../components/ui/Pagination';
 
 const Help = () => {
   const [searchQuery, setSearchQuery] = useState('');

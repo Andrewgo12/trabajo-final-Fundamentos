@@ -1,16 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Star, Truck, Shield, CreditCard, Clock } from 'lucide-react';
+import { ArrowRight, Star, Truck, Shield, CreditCard, Clock, Search, Filter, Grid, List } from 'lucide-react';
 import { motion } from 'framer-motion';
 import Button from '../components/ui/Button';
 import Card from '../components/ui/Card';
 import Badge from '../components/ui/Badge';
+import Input from '../components/ui/Input';
+import Loading from '../components/ui/Loading';
+import ErrorDisplay from '../components/ui/ErrorDisplay';
+import Rating from '../components/ui/Rating';
+import Progress from '../components/ui/Progress';
+import Tooltip from '../components/ui/Tooltip';
+import Modal from '../components/ui/Modal';
+import Tabs from '../components/ui/Tabs';
+import Accordion from '../components/ui/Accordion';
+import Dropdown from '../components/ui/Dropdown';
+import SearchBar from '../components/ui/SearchBar';
 import ProductCard from '../components/product/ProductCard';
 import { categories } from '../data/products';
 import { useFeaturedProducts } from '../hooks/useProducts';
 
 const Home = () => {
   const { products: featuredProducts, loading: featuredLoading } = useFeaturedProducts();
+  const [showModal, setShowModal] = useState(false);
+  const [activeTab, setActiveTab] = useState('featured');
+  const [searchQuery, setSearchQuery] = useState('');
 
   return (
     <div className="min-h-screen">
@@ -406,6 +420,155 @@ const Home = () => {
           </div>
         </div>
       </section>
+
+      {/* Interactive Components Demo Section */}
+      <section className="py-16 bg-white">
+        <div className="container-custom">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-3xl lg:text-4xl font-display font-bold text-gray-900 mb-4">
+              Experiencia Interactiva
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Descubre todas las funcionalidades de nuestra plataforma
+            </p>
+          </motion.div>
+
+          {/* Search Bar Demo */}
+          <div className="mb-8">
+            <SearchBar
+              value={searchQuery}
+              onChange={setSearchQuery}
+              placeholder="Busca productos, marcas o categorías..."
+              className="max-w-2xl mx-auto"
+            />
+          </div>
+
+          {/* Tabs Demo */}
+          <div className="mb-8">
+            <Tabs
+              tabs={[
+                { id: 'featured', label: 'Destacados', icon: Star },
+                { id: 'new', label: 'Nuevos', icon: Clock },
+                { id: 'offers', label: 'Ofertas', icon: Badge }
+              ]}
+              activeTab={activeTab}
+              onTabChange={setActiveTab}
+            />
+          </div>
+
+          {/* Progress Demo */}
+          <div className="mb-8">
+            <Card className="card max-w-md mx-auto">
+              <div className="card-content">
+                <h3 className="font-semibold mb-4">Tu progreso hacia envío gratis</h3>
+                <Progress value={75} max={100} className="mb-2" />
+                <p className="text-sm text-gray-600">Te faltan $12.500 para envío gratis</p>
+              </div>
+            </Card>
+          </div>
+
+          {/* Rating Demo */}
+          <div className="mb-8">
+            <Card className="card max-w-md mx-auto">
+              <div className="card-content text-center">
+                <h3 className="font-semibold mb-4">Califica tu experiencia</h3>
+                <Rating value={4.5} size="lg" showValue />
+                <p className="text-sm text-gray-600 mt-2">4.5 de 5 estrellas</p>
+              </div>
+            </Card>
+          </div>
+
+          {/* Tooltip Demo */}
+          <div className="mb-8 text-center">
+            <Tooltip content="¡Haz clic para ver ofertas especiales!">
+              <Button onClick={() => setShowModal(true)} className="btn btn-primary">
+                Ver Ofertas Especiales
+              </Button>
+            </Tooltip>
+          </div>
+
+          {/* Accordion Demo */}
+          <div className="mb-8 max-w-2xl mx-auto">
+            <Accordion
+              items={[
+                {
+                  id: 'shipping',
+                  title: '¿Cómo funciona el envío?',
+                  content: 'Ofrecemos envío gratis en compras superiores a $50.000. Los pedidos se procesan en 24-48 horas.'
+                },
+                {
+                  id: 'returns',
+                  title: '¿Puedo devolver un producto?',
+                  content: 'Sí, aceptamos devoluciones dentro de los primeros 30 días con el producto en perfecto estado.'
+                },
+                {
+                  id: 'quality',
+                  title: '¿Garantizan la calidad?',
+                  content: 'Todos nuestros productos pasan por estrictos controles de calidad y ofrecemos garantía completa.'
+                }
+              ]}
+            />
+          </div>
+
+          {/* Dropdown Demo */}
+          <div className="text-center">
+            <Dropdown
+              trigger={
+                <Button variant="outline">
+                  <Filter className="w-4 h-4 mr-2" />
+                  Filtrar por categoría
+                </Button>
+              }
+              items={[
+                { label: 'Limpieza General', value: 'general' },
+                { label: 'Desinfectantes', value: 'disinfectants' },
+                { label: 'Eco-Amigables', value: 'eco' },
+                { label: 'Profesionales', value: 'professional' }
+              ]}
+              onSelect={(item) => console.log('Selected:', item)}
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* Modal Demo */}
+      <Modal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        title="Ofertas Especiales"
+      >
+        <div className="space-y-4">
+          <p>¡Descubre nuestras ofertas exclusivas!</p>
+          <div className="grid grid-cols-1 gap-4">
+            <div className="flex items-center justify-between p-4 bg-red-50 rounded-lg">
+              <div>
+                <h4 className="font-semibold text-red-900">Descuento 20%</h4>
+                <p className="text-red-700">En productos de limpieza general</p>
+              </div>
+              <Badge variant="error">-20%</Badge>
+            </div>
+            <div className="flex items-center justify-between p-4 bg-green-50 rounded-lg">
+              <div>
+                <h4 className="font-semibold text-green-900">Envío Gratis</h4>
+                <p className="text-green-700">En compras superiores a $30.000</p>
+              </div>
+              <Badge variant="success">GRATIS</Badge>
+            </div>
+          </div>
+          <div className="flex gap-2 pt-4">
+            <Button onClick={() => setShowModal(false)} className="flex-1">
+              Ver Ofertas
+            </Button>
+            <Button variant="outline" onClick={() => setShowModal(false)} className="flex-1">
+              Cerrar
+            </Button>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 };

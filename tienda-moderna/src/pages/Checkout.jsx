@@ -24,6 +24,12 @@ import Card from '../components/ui/Card';
 import Badge from '../components/ui/Badge';
 import Breadcrumb from '../components/ui/Breadcrumb';
 import Progress from '../components/ui/Progress';
+import Rating from '../components/ui/Rating';
+import Tooltip from '../components/ui/Tooltip';
+import Modal from '../components/ui/Modal';
+import Tabs from '../components/ui/Tabs';
+import Accordion from '../components/ui/Accordion';
+import Dropdown from '../components/ui/Dropdown';
 
 // Validation schemas
 const shippingSchema = z.object({
@@ -48,6 +54,9 @@ const Checkout = () => {
   const [couponCode, setCouponCode] = useState('');
   const [appliedCoupon, setAppliedCoupon] = useState(null);
   const [paymentMethod, setPaymentMethod] = useState('card');
+  const [showModal, setShowModal] = useState(false);
+  const [activeTab, setActiveTab] = useState('shipping');
+  const [selectedRating, setSelectedRating] = useState(5);
   
   const navigate = useNavigate();
   const { cart, getCartTotal, clearCart } = useStore();

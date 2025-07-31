@@ -1,0 +1,101 @@
+version: '3.8'
+
+services:
+  # MySQL Database
+  mysql:
+    image: mysql:8.0
+    container_name: tienda-moderna-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-rootpassword}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-tienda_moderna}
+      MYSQL_USER: ${MYSQL_USER:-tienda_user}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-tienda_password}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./mysql/init:/docker-entrypoint-initdb.d
+    networks:
+      - tienda-network
+    command: --default-authentication-plugin=mysql_native_password
+
+  # Redis for caching and sessions
+  redis:
+    image: redis:7-alpine
+    container_name: tienda-moderna-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - tienda-network
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD:-}
+
+  # Node.js API Server
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: tienda-moderna-api
+    restart: unless-stopped
+    environment:
+      NODE_ENV: ${NODE_ENV:-development}
+      PORT: ${PORT:-3001}
+      DATABASE_URL: mysql://${MYSQL_USER:-tienda_user}:${MYSQL_PASSWORD:-tienda_password}@mysql:3306/${MYSQL_DATABASE:-tienda_moderna}
+      REDIS_URL: redis://redis:6379
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET}
+      FRONTEND_URL: ${FRONTEND_URL:-http://localhost:3000}
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./uploads:/app/uploads
+      - ./logs:/app/logs
+    depends_on:
+      - mysql
+      - redis
+    networks:
+      - tienda-network
+
+  # Nginx reverse proxy (optional)
+  nginx:
+    image: nginx:alpine
+    container_name: tienda-moderna-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/ssl:/etc/nginx/ssl
+      - ./uploads:/var/www/uploads
+    depends_on:
+      - api
+    networks:
+      - tienda-network
+
+  # Adminer for database management (development only)
+  adminer:
+    image: adminer
+    container_name: tienda-moderna-adminer
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+    networks:
+      - tienda-network
+    profiles:
+      - development
+
+volumes:
+  mysql_data:
+    driver: local
+  redis_data:
+    driver: local
+
+networks:
+  tienda-network:
+    driver: bridge

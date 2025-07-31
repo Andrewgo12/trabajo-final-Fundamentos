@@ -8,6 +8,8 @@ import ProductCard from '../components/product/ProductCard';
 import Button from '../components/ui/Button';
 import Input from '../components/ui/Input';
 import Badge from '../components/ui/Badge';
+import Breadcrumb from '../components/ui/Breadcrumb';
+import Card from '../components/ui/Card';
 
 const Category = () => {
   const { categoryId } = useParams();

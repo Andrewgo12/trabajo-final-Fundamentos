@@ -24,6 +24,7 @@ import { motion } from 'framer-motion';
 import Button from '../components/ui/Button';
 import Card from '../components/ui/Card';
 import Badge from '../components/ui/Badge';
+import Breadcrumb from '../components/ui/Breadcrumb';
 
 const Sustainability = () => {
   const sustainabilityStats = [
@@ -173,6 +174,15 @@ const Sustainability = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* Breadcrumb */}
+      <div className="bg-white border-b border-gray-100">
+        <div className="container-custom py-4">
+          <Breadcrumb items={[
+            { label: 'Sostenibilidad' }
+          ]} />
+        </div>
+      </div>
+
       {/* Header */}
       <div className="bg-gradient-to-r from-success-600 to-primary-600 text-white">
         <div className="container-custom py-20">

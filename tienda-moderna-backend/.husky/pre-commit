@@ -1,0 +1,41 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo "🔍 Running pre-commit checks..."
+
+# Run linting
+echo "📝 Checking code style..."
+npm run lint
+if [ $? -ne 0 ]; then
+  echo "❌ Linting failed"
+  exit 1
+fi
+
+# Run formatting check
+echo "💅 Checking code formatting..."
+npm run format:check
+if [ $? -ne 0 ]; then
+  echo "❌ Code formatting check failed"
+  echo "💡 Run 'npm run format' to fix formatting issues"
+  exit 1
+fi
+
+# Run tests
+echo "🧪 Running tests..."
+npm run test:run
+if [ $? -ne 0 ]; then
+  echo "❌ Tests failed"
+  exit 1
+fi
+
+# Check for Prisma schema changes
+if git diff --cached --name-only | grep -q "prisma/schema.prisma"; then
+  echo "🔄 Prisma schema changed, generating client..."
+  npx prisma generate
+  if [ $? -ne 0 ]; then
+    echo "❌ Prisma client generation failed"
+    exit 1
+  fi
+fi
+
+echo "✅ Pre-commit checks passed!"

@@ -28,6 +28,13 @@ import Button from '../components/ui/Button';
 import Input from '../components/ui/Input';
 import Card from '../components/ui/Card';
 import Badge from '../components/ui/Badge';
+import Breadcrumb from '../components/ui/Breadcrumb';
+import Rating from '../components/ui/Rating';
+import Progress from '../components/ui/Progress';
+import Tooltip from '../components/ui/Tooltip';
+import Modal from '../components/ui/Modal';
+import Tabs from '../components/ui/Tabs';
+import Accordion from '../components/ui/Accordion';
 
 const Categories = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -196,6 +203,15 @@ const Categories = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* Breadcrumb */}
+      <div className="bg-white border-b border-gray-100">
+        <div className="container-custom py-4">
+          <Breadcrumb items={[
+            { label: 'Categorías' }
+          ]} />
+        </div>
+      </div>
+
       {/* Header */}
       <div className="bg-gradient-to-r from-primary-600 to-accent-500 text-white">
         <div className="container-custom py-16">

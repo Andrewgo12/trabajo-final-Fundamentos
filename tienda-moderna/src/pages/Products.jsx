@@ -11,6 +11,16 @@ import Badge from '../components/ui/Badge';
 import Card from '../components/ui/Card';
 import Loading from '../components/ui/Loading';
 import ErrorDisplay from '../components/ui/ErrorDisplay';
+import Breadcrumb from '../components/ui/Breadcrumb';
+import Rating from '../components/ui/Rating';
+import Progress from '../components/ui/Progress';
+import Tooltip from '../components/ui/Tooltip';
+import Modal from '../components/ui/Modal';
+import Tabs from '../components/ui/Tabs';
+import Accordion from '../components/ui/Accordion';
+import Dropdown from '../components/ui/Dropdown';
+import SearchBar from '../components/ui/SearchBar';
+import Pagination from '../components/ui/Pagination';
 
 const Products = () => {
   const [viewMode, setViewMode] = useState('grid');
@@ -21,6 +31,9 @@ const Products = () => {
   const [selectedBrand, setSelectedBrand] = useState('');
   const [priceRange, setPriceRange] = useState([0, 200000]);
   const [selectedRating, setSelectedRating] = useState(0);
+  const [showModal, setShowModal] = useState(false);
+  const [activeTab, setActiveTab] = useState('all');
+  const [sortBy, setSortBy] = useState('relevance');
 
   const {
     filters,
@@ -63,6 +76,15 @@ const Products = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* Breadcrumb */}
+      <div className="bg-white border-b border-gray-100">
+        <div className="container-custom py-4">
+          <Breadcrumb items={[
+            { label: 'Productos' }
+          ]} />
+        </div>
+      </div>
+
       {/* Header */}
       <div className="bg-white border-b border-gray-200">
         <div className="container-custom py-6">
@@ -440,6 +462,172 @@ const Products = () => {
             {viewMode === 'grid' ? <List className="w-4 h-4" /> : <Grid className="w-4 h-4" />}
           </Button>
         </div>
+
+        {/* Advanced Components Demo Section */}
+        <div className="mt-12 space-y-8">
+          {/* Tabs Demo */}
+          <Card className="card">
+            <div className="card-content">
+              <h3 className="font-semibold mb-4">Filtros Avanzados</h3>
+              <Tabs
+                tabs={[
+                  { id: 'all', label: 'Todos', icon: Package },
+                  { id: 'popular', label: 'Populares', icon: Star },
+                  { id: 'new', label: 'Nuevos', icon: Package }
+                ]}
+                activeTab={activeTab}
+                onTabChange={setActiveTab}
+              />
+            </div>
+          </Card>
+
+          {/* Rating Filter Demo */}
+          <Card className="card">
+            <div className="card-content">
+              <h3 className="font-semibold mb-4">Filtrar por Calificación</h3>
+              <div className="space-y-2">
+                {[5, 4, 3, 2, 1].map((rating) => (
+                  <label key={rating} className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="radio"
+                      name="rating"
+                      value={rating}
+                      checked={selectedRating === rating}
+                      onChange={() => setSelectedRating(rating)}
+                      className="text-primary-600"
+                    />
+                    <Rating value={rating} size="sm" readonly />
+                    <span className="text-sm text-gray-600">y más</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+          </Card>
+
+          {/* Progress Demo */}
+          <Card className="card">
+            <div className="card-content">
+              <h3 className="font-semibold mb-4">Progreso de Búsqueda</h3>
+              <div className="space-y-3">
+                <div>
+                  <div className="flex justify-between text-sm mb-1">
+                    <span>Productos encontrados</span>
+                    <span>{products.length}/1000</span>
+                  </div>
+                  <Progress value={products.length} max={1000} />
+                </div>
+                <div>
+                  <div className="flex justify-between text-sm mb-1">
+                    <span>Filtros aplicados</span>
+                    <span>{activeFiltersCount}/10</span>
+                  </div>
+                  <Progress value={activeFiltersCount} max={10} variant="success" />
+                </div>
+              </div>
+            </div>
+          </Card>
+
+          {/* Accordion FAQ */}
+          <Card className="card">
+            <div className="card-content">
+              <h3 className="font-semibold mb-4">Preguntas Frecuentes</h3>
+              <Accordion
+                items={[
+                  {
+                    id: 'shipping',
+                    title: '¿Cómo funciona el envío?',
+                    content: 'Ofrecemos envío gratis en compras superiores a $50.000. Los pedidos se procesan en 24-48 horas.'
+                  },
+                  {
+                    id: 'quality',
+                    title: '¿Garantizan la calidad de los productos?',
+                    content: 'Todos nuestros productos pasan por estrictos controles de calidad y ofrecemos garantía completa.'
+                  },
+                  {
+                    id: 'returns',
+                    title: '¿Puedo devolver un producto?',
+                    content: 'Sí, aceptamos devoluciones dentro de los primeros 30 días con el producto en perfecto estado.'
+                  }
+                ]}
+              />
+            </div>
+          </Card>
+
+          {/* Tooltip Demo */}
+          <div className="text-center">
+            <Tooltip content="¡Haz clic para ver ofertas especiales en productos seleccionados!">
+              <Button onClick={() => setShowModal(true)} className="btn btn-primary">
+                <Star className="w-4 h-4 mr-2" />
+                Ver Ofertas Especiales
+              </Button>
+            </Tooltip>
+          </div>
+
+          {/* Dropdown Demo */}
+          <div className="flex justify-center">
+            <Dropdown
+              trigger={
+                <Button variant="outline">
+                  Ordenar por: {sortBy === 'relevance' ? 'Relevancia' :
+                              sortBy === 'price-low' ? 'Precio: Menor a Mayor' :
+                              sortBy === 'price-high' ? 'Precio: Mayor a Menor' :
+                              sortBy === 'rating' ? 'Mejor Calificados' : 'Más Nuevos'}
+                  <ChevronDown className="w-4 h-4 ml-2" />
+                </Button>
+              }
+              items={[
+                { label: 'Relevancia', value: 'relevance' },
+                { label: 'Precio: Menor a Mayor', value: 'price-low' },
+                { label: 'Precio: Mayor a Menor', value: 'price-high' },
+                { label: 'Mejor Calificados', value: 'rating' },
+                { label: 'Más Nuevos', value: 'newest' }
+              ]}
+              onSelect={(item) => setSortBy(item.value)}
+            />
+          </div>
+        </div>
+
+        {/* Modal Demo */}
+        <Modal
+          isOpen={showModal}
+          onClose={() => setShowModal(false)}
+          title="Ofertas Especiales en Productos"
+        >
+          <div className="space-y-4">
+            <p>¡Descubre nuestras ofertas exclusivas en productos de limpieza!</p>
+            <div className="grid grid-cols-1 gap-4">
+              <div className="flex items-center justify-between p-4 bg-red-50 rounded-lg">
+                <div>
+                  <h4 className="font-semibold text-red-900">Descuento 25%</h4>
+                  <p className="text-red-700">En productos de limpieza general</p>
+                </div>
+                <Badge variant="error">-25%</Badge>
+              </div>
+              <div className="flex items-center justify-between p-4 bg-green-50 rounded-lg">
+                <div>
+                  <h4 className="font-semibold text-green-900">2x1</h4>
+                  <p className="text-green-700">En desinfectantes seleccionados</p>
+                </div>
+                <Badge variant="success">2x1</Badge>
+              </div>
+              <div className="flex items-center justify-between p-4 bg-blue-50 rounded-lg">
+                <div>
+                  <h4 className="font-semibold text-blue-900">Envío Express</h4>
+                  <p className="text-blue-700">Gratis en compras superiores a $30.000</p>
+                </div>
+                <Badge variant="primary">GRATIS</Badge>
+              </div>
+            </div>
+            <div className="flex gap-2 pt-4">
+              <Button onClick={() => setShowModal(false)} className="flex-1">
+                Aplicar Ofertas
+              </Button>
+              <Button variant="outline" onClick={() => setShowModal(false)} className="flex-1">
+                Cerrar
+              </Button>
+            </div>
+          </div>
+        </Modal>
       </div>
     </div>
   );

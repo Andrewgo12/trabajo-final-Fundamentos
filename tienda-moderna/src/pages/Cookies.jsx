@@ -20,6 +20,7 @@ import { motion } from 'framer-motion';
 import Button from '../components/ui/Button';
 import Card from '../components/ui/Card';
 import Badge from '../components/ui/Badge';
+import Breadcrumb from '../components/ui/Breadcrumb';
 
 const Cookies = () => {
   const [cookiePreferences, setCookiePreferences] = useState({

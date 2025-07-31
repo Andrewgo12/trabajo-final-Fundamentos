@@ -16,8 +16,35 @@ import { motion } from 'framer-motion';
 import Button from '../components/ui/Button';
 import Card from '../components/ui/Card';
 import Breadcrumb from '../components/ui/Breadcrumb';
+import Badge from '../components/ui/Badge';
+import Rating from '../components/ui/Rating';
+import Progress from '../components/ui/Progress';
+import Tooltip from '../components/ui/Tooltip';
+import Modal from '../components/ui/Modal';
+import Tabs from '../components/ui/Tabs';
+import Accordion from '../components/ui/Accordion';
+import Loading from '../components/ui/Loading';
+import ErrorDisplay from '../components/ui/ErrorDisplay';
+import Dropdown from '../components/ui/Dropdown';
+import SearchBar from '../components/ui/SearchBar';
+import Pagination from '../components/ui/Pagination';
 
 const About = () => {
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [activeTab, setActiveTab] = useState('company');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+
+  // Simulate loading
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 1500);
+    return () => clearTimeout(timer);
+  }, []);
+
   const stats = [
     { icon: Users, value: '50,000+', label: 'Clientes Satisfechos' },
     { icon: Award, value: '10+', label: 'Años de Experiencia' },
@@ -77,6 +104,30 @@ const About = () => {
     { year: '2022', event: 'Cobertura nacional en Colombia' },
     { year: '2024', event: 'Más de 50,000 clientes satisfechos' }
   ];
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <Loading size="lg" text="Cargando información de la empresa..." />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <ErrorDisplay
+          title="Error al cargar"
+          message={error}
+          onRetry={() => {
+            setError(null);
+            setLoading(true);
+            setTimeout(() => setLoading(false), 1500);
+          }}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -373,6 +424,213 @@ const About = () => {
           </motion.div>
         </div>
       </div>
+
+      {/* Complete Components Demo Section */}
+      <section className="py-16 bg-white">
+        <div className="container-custom">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-3xl lg:text-4xl font-display font-bold text-gray-900 mb-4">
+              Interactúa con Nosotros
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Descubre todas las formas de conectar con nuestra empresa
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+            {/* Tabs Demo */}
+            <Card className="card">
+              <div className="card-content">
+                <h3 className="font-semibold mb-4">Explora Nuestras Secciones</h3>
+                <Tabs
+                  tabs={[
+                    { id: 'company', label: 'Empresa', icon: Building },
+                    { id: 'team', label: 'Equipo', icon: Users },
+                    { id: 'values', label: 'Valores', icon: Award }
+                  ]}
+                  activeTab={activeTab}
+                  onTabChange={setActiveTab}
+                />
+                <div className="mt-4 p-4 bg-gray-50 rounded-lg">
+                  {activeTab === 'company' && (
+                    <p className="text-sm text-gray-600">
+                      Conoce más sobre nuestra historia y misión empresarial.
+                    </p>
+                  )}
+                  {activeTab === 'team' && (
+                    <p className="text-sm text-gray-600">
+                      Descubre al equipo profesional detrás de Tienda Moderna.
+                    </p>
+                  )}
+                  {activeTab === 'values' && (
+                    <p className="text-sm text-gray-600">
+                      Explora los valores que guían nuestro trabajo diario.
+                    </p>
+                  )}
+                </div>
+              </div>
+            </Card>
+
+            {/* Rating Demo */}
+            <Card className="card">
+              <div className="card-content">
+                <h3 className="font-semibold mb-4">Califica Nuestra Empresa</h3>
+                <div className="text-center">
+                  <Rating value={4.8} size="lg" showValue />
+                  <p className="text-sm text-gray-600 mt-2">4.8 de 5 estrellas</p>
+                  <p className="text-xs text-gray-500">Basado en 2,847 reseñas</p>
+                </div>
+                <div className="mt-4 space-y-2">
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm w-8">5★</span>
+                    <Progress value={85} max={100} className="flex-1" />
+                    <span className="text-sm text-gray-500">85%</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm w-8">4★</span>
+                    <Progress value={12} max={100} className="flex-1" />
+                    <span className="text-sm text-gray-500">12%</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm w-8">3★</span>
+                    <Progress value={2} max={100} className="flex-1" />
+                    <span className="text-sm text-gray-500">2%</span>
+                  </div>
+                </div>
+              </div>
+            </Card>
+          </div>
+
+          {/* Search Demo */}
+          <div className="mb-8">
+            <SearchBar
+              value={searchQuery}
+              onChange={setSearchQuery}
+              placeholder="Busca información sobre nuestra empresa..."
+              className="max-w-2xl mx-auto"
+            />
+          </div>
+
+          {/* Accordion FAQ */}
+          <Card className="card mb-8">
+            <div className="card-content">
+              <h3 className="font-semibold mb-4">Preguntas Frecuentes sobre Nosotros</h3>
+              <Accordion
+                items={[
+                  {
+                    id: 'history',
+                    title: '¿Cuándo fue fundada Tienda Moderna?',
+                    content: 'Tienda Moderna fue fundada en 2014 en Bogotá, Colombia, con la visión de revolucionar el mercado de productos de limpieza.'
+                  },
+                  {
+                    id: 'mission',
+                    title: '¿Cuál es nuestra misión?',
+                    content: 'Nuestra misión es proporcionar productos de limpieza de alta calidad que hagan la vida más fácil y los hogares más saludables.'
+                  },
+                  {
+                    id: 'sustainability',
+                    title: '¿Qué hacemos por el medio ambiente?',
+                    content: 'Estamos comprometidos con la sostenibilidad, ofreciendo productos eco-amigables y empaques reciclables.'
+                  },
+                  {
+                    id: 'team',
+                    title: '¿Cuántas personas trabajan en la empresa?',
+                    content: 'Nuestro equipo está compuesto por más de 150 profesionales dedicados en diferentes áreas de la empresa.'
+                  }
+                ]}
+              />
+            </div>
+          </Card>
+
+          {/* Dropdown and Tooltip Demo */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
+            <Dropdown
+              trigger={
+                <Button variant="outline">
+                  <MapPin className="w-4 h-4 mr-2" />
+                  Nuestras Ubicaciones
+                </Button>
+              }
+              items={[
+                { label: 'Bogotá - Sede Principal', value: 'bogota' },
+                { label: 'Medellín - Sucursal', value: 'medellin' },
+                { label: 'Cali - Sucursal', value: 'cali' },
+                { label: 'Barranquilla - Sucursal', value: 'barranquilla' }
+              ]}
+              onSelect={(item) => console.log('Ubicación seleccionada:', item)}
+            />
+
+            <Tooltip content="¡Contáctanos para conocer más sobre nuestra empresa!">
+              <Button onClick={() => setShowModal(true)} className="btn btn-primary">
+                <Phone className="w-4 h-4 mr-2" />
+                Contactar
+              </Button>
+            </Tooltip>
+          </div>
+
+          {/* Pagination Demo */}
+          <div className="flex justify-center">
+            <Pagination
+              currentPage={currentPage}
+              totalPages={5}
+              onPageChange={setCurrentPage}
+              showInfo={true}
+              totalItems={47}
+              itemsPerPage={10}
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* Modal Demo */}
+      <Modal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        title="Contacta con Tienda Moderna"
+      >
+        <div className="space-y-4">
+          <p>¿Te interesa conocer más sobre nuestra empresa? ¡Estamos aquí para ayudarte!</p>
+
+          <div className="grid grid-cols-1 gap-4">
+            <div className="flex items-center gap-3 p-4 bg-blue-50 rounded-lg">
+              <Phone className="w-5 h-5 text-blue-600" />
+              <div>
+                <h4 className="font-semibold text-blue-900">Teléfono</h4>
+                <p className="text-blue-700">+57 300 123 4567</p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3 p-4 bg-green-50 rounded-lg">
+              <Mail className="w-5 h-5 text-green-600" />
+              <div>
+                <h4 className="font-semibold text-green-900">Email</h4>
+                <p className="text-green-700">info@tiendamoderna.com</p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3 p-4 bg-purple-50 rounded-lg">
+              <MapPin className="w-5 h-5 text-purple-600" />
+              <div>
+                <h4 className="font-semibold text-purple-900">Dirección</h4>
+                <p className="text-purple-700">Calle 123 #45-67, Bogotá</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex gap-2 pt-4">
+            <Button onClick={() => setShowModal(false)} className="flex-1">
+              Llamar Ahora
+            </Button>
+            <Button variant="outline" onClick={() => setShowModal(false)} className="flex-1">
+              Cerrar
+            </Button>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 };

@@ -29,10 +29,33 @@ import Card from '../components/ui/Card';
 import Badge from '../components/ui/Badge';
 import Breadcrumb from '../components/ui/Breadcrumb';
 import Pagination from '../components/ui/Pagination';
+import Loading from '../components/ui/Loading';
+import ErrorDisplay from '../components/ui/ErrorDisplay';
+import Rating from '../components/ui/Rating';
+import Progress from '../components/ui/Progress';
+import Tooltip from '../components/ui/Tooltip';
+import Modal from '../components/ui/Modal';
+import Tabs from '../components/ui/Tabs';
+import Accordion from '../components/ui/Accordion';
+import Dropdown from '../components/ui/Dropdown';
+import SearchBar from '../components/ui/SearchBar';
 
 const Blog = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [activeTab, setActiveTab] = useState('recent');
+  const [currentPage, setCurrentPage] = useState(1);
+
+  // Simulate loading
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 1200);
+    return () => clearTimeout(timer);
+  }, []);
 
   const categories = [
     { id: 'all', name: 'Todos los Artículos', count: 24 },

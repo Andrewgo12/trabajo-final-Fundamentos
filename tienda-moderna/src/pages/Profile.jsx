@@ -25,6 +25,11 @@ import Badge from '../components/ui/Badge';
 import Breadcrumb from '../components/ui/Breadcrumb';
 import Tabs from '../components/ui/Tabs';
 import Modal from '../components/ui/Modal';
+import Rating from '../components/ui/Rating';
+import Progress from '../components/ui/Progress';
+import Tooltip from '../components/ui/Tooltip';
+import Accordion from '../components/ui/Accordion';
+import Dropdown from '../components/ui/Dropdown';
 
 // Validation schema
 const profileSchema = z.object({

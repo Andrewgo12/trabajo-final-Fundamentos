@@ -4,6 +4,11 @@ import { ArrowLeft, FileText, Shield, AlertCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 import Card from '../components/ui/Card';
 import Button from '../components/ui/Button';
+import Breadcrumb from '../components/ui/Breadcrumb';
+import Badge from '../components/ui/Badge';
+import Progress from '../components/ui/Progress';
+import Accordion from '../components/ui/Accordion';
+import Tooltip from '../components/ui/Tooltip';
 
 const Terms = () => {
   const lastUpdated = '15 de enero de 2024';
@@ -125,6 +130,16 @@ const Terms = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* Breadcrumb */}
+      <div className="bg-white border-b border-gray-100">
+        <div className="container-custom py-4">
+          <Breadcrumb items={[
+            { label: 'Legal', href: '/help' },
+            { label: 'Términos y Condiciones' }
+          ]} />
+        </div>
+      </div>
+
       {/* Header */}
       <div className="bg-white border-b border-gray-200">
         <div className="container-custom py-8">

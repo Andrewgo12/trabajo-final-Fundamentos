@@ -23,6 +23,11 @@ import Badge from '../components/ui/Badge';
 import Loading from '../components/ui/Loading';
 import ErrorDisplay from '../components/ui/ErrorDisplay';
 import Progress from '../components/ui/Progress';
+import Breadcrumb from '../components/ui/Breadcrumb';
+import Rating from '../components/ui/Rating';
+import Tooltip from '../components/ui/Tooltip';
+import Modal from '../components/ui/Modal';
+import Accordion from '../components/ui/Accordion';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
 import { useAuth } from '../context/AuthContext';
@@ -49,6 +54,9 @@ const Cart = () => {
 
   const [couponCode, setCouponCode] = useState('');
   const [isApplyingCoupon, setIsApplyingCoupon] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [activeTab, setActiveTab] = useState('cart');
+  const [selectedRating, setSelectedRating] = useState(5);
 
   const handleQuantityChange = (itemId, newQuantity) => {
     if (newQuantity < 1) {
@@ -182,10 +190,20 @@ const Cart = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="container mx-auto px-4">
-        {/* Header */}
-        <div className="flex items-center gap-4 mb-8">
+    <div className="min-h-screen bg-gray-50">
+      {/* Breadcrumb */}
+      <div className="bg-white border-b border-gray-100">
+        <div className="container mx-auto px-4 py-4">
+          <Breadcrumb items={[
+            { label: 'Carrito de Compras' }
+          ]} />
+        </div>
+      </div>
+
+      <div className="py-8">
+        <div className="container mx-auto px-4">
+          {/* Header */}
+          <div className="flex items-center gap-4 mb-8">
           <Button
             variant="ghost"
             onClick={() => navigate(-1)}
