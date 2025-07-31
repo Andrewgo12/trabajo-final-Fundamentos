@@ -7,6 +7,18 @@ echo 🚀 Iniciando Tienda Moderna - Desarrollo
 echo ========================================
 echo.
 
+:: Verificar configuración
+echo 🔍 Verificando configuración...
+node verify-setup.js
+if errorlevel 1 (
+    echo.
+    echo ❌ Se encontraron problemas en la configuración
+    echo    Revisa los errores anteriores antes de continuar
+    pause
+    exit /b 1
+)
+echo.
+
 :: Verificar Node.js
 node --version >nul 2>&1
 if errorlevel 1 (

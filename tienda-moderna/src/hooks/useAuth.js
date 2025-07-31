@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useStore } from '../stores/useStore';
-import { authAPI } from '../services/api';
+import { api } from '../services/apiClient';
 
 export const useAuth = () => {
   const { 
@@ -18,14 +18,15 @@ export const useAuth = () => {
   // Verificar si hay un token guardado al cargar la aplicación
   useEffect(() => {
     const checkAuthStatus = async () => {
-      const token = localStorage.getItem('auth_token');
+      const token = localStorage.getItem('accessToken');
       if (token && !isAuthenticated) {
         try {
           setLoading(true);
-          const userData = await authAPI.getCurrentUser(token);
-          setUser(userData);
+          const response = await api.auth.me();
+          setUser(response.data.data.user);
         } catch (error) {
-          localStorage.removeItem('auth_token');
+          localStorage.removeItem('accessToken');
+          localStorage.removeItem('refreshToken');
           setError('Sesión expirada');
         } finally {
           setLoading(false);
@@ -40,19 +41,21 @@ export const useAuth = () => {
     try {
       setIsLoading(true);
       clearError();
-      
-      const response = await authAPI.login(email, password);
-      
-      // Guardar token en localStorage
-      localStorage.setItem('auth_token', response.token);
-      
+
+      const response = await api.auth.login({ email, password });
+
+      // Guardar tokens en localStorage
+      localStorage.setItem('accessToken', response.data.data.tokens.accessToken);
+      localStorage.setItem('refreshToken', response.data.data.tokens.refreshToken);
+
       // Actualizar estado global
-      setUser(response.user);
-      
-      return { success: true };
+      setUser(response.data.data.user);
+
+      return { success: true, user: response.data.data.user };
     } catch (error) {
-      setError(error.message);
-      return { success: false, error: error.message };
+      const errorMessage = error.response?.data?.message || error.message;
+      setError(errorMessage);
+      return { success: false, error: errorMessage };
     } finally {
       setIsLoading(false);
     }
@@ -62,19 +65,21 @@ export const useAuth = () => {
     try {
       setIsLoading(true);
       clearError();
-      
-      const response = await authAPI.register(userData);
-      
-      // Guardar token en localStorage
-      localStorage.setItem('auth_token', response.token);
-      
+
+      const response = await api.auth.register(userData);
+
+      // Guardar tokens en localStorage
+      localStorage.setItem('accessToken', response.data.data.tokens.accessToken);
+      localStorage.setItem('refreshToken', response.data.data.tokens.refreshToken);
+
       // Actualizar estado global
-      setUser(response.user);
-      
-      return { success: true };
+      setUser(response.data.data.user);
+
+      return { success: true, user: response.data.data.user };
     } catch (error) {
-      setError(error.message);
-      return { success: false, error: error.message };
+      const errorMessage = error.response?.data?.message || error.message;
+      setError(errorMessage);
+      return { success: false, error: errorMessage };
     } finally {
       setIsLoading(false);
     }
@@ -83,19 +88,26 @@ export const useAuth = () => {
   const logout = async () => {
     try {
       setIsLoading(true);
-      
-      await authAPI.logout();
-      
-      // Limpiar token
-      localStorage.removeItem('auth_token');
-      
+
+      const refreshToken = localStorage.getItem('refreshToken');
+      if (refreshToken) {
+        await api.auth.logout(refreshToken);
+      }
+
+      // Limpiar tokens
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+
       // Limpiar estado global
       clearUser();
-      
+
       return { success: true };
     } catch (error) {
-      setError(error.message);
-      return { success: false, error: error.message };
+      // Incluso si falla el logout en el servidor, limpiamos localmente
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+      clearUser();
+      return { success: true };
     } finally {
       setIsLoading(false);
     }

@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
 import { WishlistProvider } from './context/WishlistContext';
-import { ToastProvider } from './components/ui/Toast';
 import Layout from './components/layout/Layout';
 import ErrorBoundary, { NotFoundError } from './components/ui/ErrorBoundary';
 import Home from './pages/Home';
@@ -36,12 +36,11 @@ import Warranty from './pages/Warranty';
 function App() {
   return (
     <ErrorBoundary>
-      <ToastProvider>
-        <AuthProvider>
-          <CartProvider>
-            <WishlistProvider>
-              <Router>
-          <Layout>
+      <AuthProvider>
+        <CartProvider>
+          <WishlistProvider>
+            <Router>
+              <Layout>
             <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/products" element={<Products />} />
@@ -74,11 +73,39 @@ function App() {
             <Route path="*" element={<NotFoundError />} />
           </Routes>
         </Layout>
-      </Router>
+        <Toaster
+          position="top-right"
+          reverseOrder={false}
+          gutter={8}
+          toastOptions={{
+            duration: 4000,
+            style: {
+              background: '#363636',
+              color: '#fff',
+              borderRadius: '8px',
+              fontSize: '14px',
+              maxWidth: '400px'
+            },
+            success: {
+              duration: 3000,
+              style: {
+                background: '#10b981',
+                color: '#fff'
+              }
+            },
+            error: {
+              duration: 5000,
+              style: {
+                background: '#ef4444',
+                color: '#fff'
+              }
+            }
+          }}
+        />
+              </Router>
             </WishlistProvider>
           </CartProvider>
         </AuthProvider>
-      </ToastProvider>
     </ErrorBoundary>
   );
 }

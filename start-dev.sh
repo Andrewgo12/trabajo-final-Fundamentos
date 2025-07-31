@@ -10,6 +10,16 @@ NC='\033[0m' # No Color
 echo -e "${BLUE}🚀 Iniciando Tienda Moderna - Desarrollo${NC}"
 echo "=================================================="
 
+# Verificar configuración
+echo -e "${BLUE}🔍 Verificando configuración...${NC}"
+node verify-setup.js
+if [ $? -ne 0 ]; then
+    echo -e "${RED}❌ Se encontraron problemas en la configuración${NC}"
+    echo -e "${RED}   Revisa los errores anteriores antes de continuar${NC}"
+    exit 1
+fi
+echo ""
+
 # Función para verificar si un puerto está en uso
 check_port() {
     local port=$1

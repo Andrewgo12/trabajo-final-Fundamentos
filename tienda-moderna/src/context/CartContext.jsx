@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useReducer, useEffect } from 'react';
-import { useToast } from '../components/ui/Toast';
+import toast from 'react-hot-toast';
+import { api } from '../services/apiClient';
 
 const CartContext = createContext();
 
@@ -119,7 +120,6 @@ const initialState = {
 
 export const CartProvider = ({ children }) => {
   const [state, dispatch] = useReducer(cartReducer, initialState);
-  const toast = useToast();
 
   // Load cart from localStorage on mount
   useEffect(() => {
@@ -152,14 +152,7 @@ export const CartProvider = ({ children }) => {
   const addToCart = (product) => {
     try {
       dispatch({ type: 'ADD_ITEM', payload: product });
-      toast.success(`${product.name} agregado al carrito`, {
-        action: {
-          label: 'Ver carrito',
-          onClick: () => {
-            window.location.href = '/cart';
-          }
-        }
-      });
+      toast.success(`${product.name} agregado al carrito`);
     } catch (error) {
       console.error('Error adding to cart:', error);
       toast.error('Error al agregar el producto al carrito');

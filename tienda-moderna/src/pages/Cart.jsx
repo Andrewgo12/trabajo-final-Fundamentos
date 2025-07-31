@@ -31,7 +31,7 @@ import Accordion from '../components/ui/Accordion';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
 import { useAuth } from '../context/AuthContext';
-import { useToast } from '../components/ui/Toast';
+import toast from 'react-hot-toast';
 
 const Cart = () => {
   const navigate = useNavigate();
@@ -50,7 +50,7 @@ const Cart = () => {
     appliedCoupon
   } = useCart();
   const { addToWishlist } = useWishlist();
-  const { addToast } = useToast();
+  // Toast notifications handled by context
 
   const [couponCode, setCouponCode] = useState('');
   const [isApplyingCoupon, setIsApplyingCoupon] = useState(false);
@@ -68,21 +68,13 @@ const Cart = () => {
 
   const handleRemoveItem = (itemId) => {
     removeFromCart(itemId);
-    addToast({
-      type: 'success',
-      title: 'Producto eliminado',
-      message: 'El producto ha sido eliminado del carrito'
-    });
+    // Toast notification handled by context
   };
 
   const handleMoveToWishlist = (item) => {
     addToWishlist(item);
     removeFromCart(item.id);
-    addToast({
-      type: 'success',
-      title: 'Movido a lista de deseos',
-      message: `${item.name} ha sido movido a tu lista de deseos`
-    });
+    // Toast notification handled by context
   };
 
   const handleApplyCoupon = async () => {
@@ -92,25 +84,13 @@ const Cart = () => {
     try {
       const success = await applyCoupon(couponCode);
       if (success) {
-        addToast({
-          type: 'success',
-          title: 'Cupón aplicado',
-          message: 'El descuento ha sido aplicado correctamente'
-        });
         setCouponCode('');
+        // Toast notification handled by context
       } else {
-        addToast({
-          type: 'error',
-          title: 'Cupón inválido',
-          message: 'El código de cupón no es válido o ha expirado'
-        });
+        toast.error('El código de cupón no es válido o ha expirado');
       }
     } catch (error) {
-      addToast({
-        type: 'error',
-        title: 'Error',
-        message: 'No se pudo aplicar el cupón. Intenta nuevamente.'
-      });
+      toast.error('No se pudo aplicar el cupón. Intenta nuevamente.');
     } finally {
       setIsApplyingCoupon(false);
     }
@@ -118,29 +98,17 @@ const Cart = () => {
 
   const handleRemoveCoupon = () => {
     removeCoupon();
-    addToast({
-      type: 'info',
-      title: 'Cupón removido',
-      message: 'El descuento ha sido removido'
-    });
+    // Toast notification handled by context
   };
 
   const handleClearCart = () => {
     clearCart();
-    addToast({
-      type: 'info',
-      title: 'Carrito vaciado',
-      message: 'Todos los productos han sido eliminados del carrito'
-    });
+    // Toast notification handled by context
   };
 
   const handleCheckout = () => {
     if (!user) {
-      addToast({
-        type: 'warning',
-        title: 'Inicia sesión',
-        message: 'Debes iniciar sesión para continuar con la compra'
-      });
+      toast.warning('Debes iniciar sesión para continuar con la compra');
       return;
     }
     navigate('/checkout');

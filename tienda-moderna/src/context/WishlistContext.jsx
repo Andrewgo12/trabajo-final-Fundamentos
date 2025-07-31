@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useReducer, useEffect } from 'react';
-import { useToast } from '../components/ui/Toast';
+import toast from 'react-hot-toast';
 import { useAuth } from './AuthContext';
+import { api } from '../services/apiClient';
 
 const WishlistContext = createContext();
 
@@ -81,7 +82,6 @@ const initialState = {
 export const WishlistProvider = ({ children }) => {
   const [state, dispatch] = useReducer(wishlistReducer, initialState);
   const { isAuthenticated, user } = useAuth();
-  const toast = useToast();
 
   // Load wishlist from localStorage on mount
   useEffect(() => {

@@ -477,4 +477,202 @@ router.post('/', authenticate, authorize('ADMIN', 'SUPER_ADMIN'), createProductV
   }
 });
 
+// Get new products
+router.get('/new', async (req, res) => {
+  try {
+    const { page = 1, limit = 12 } = req.query;
+
+    const result = await searchWithPagination('product', {
+      where: {
+        status: 'ACTIVE',
+        isActive: true
+      },
+      orderBy: {
+        createdAt: 'desc'
+      },
+      page: parseInt(page),
+      limit: parseInt(limit),
+      include: {
+        category: {
+          select: { id: true, name: true, slug: true }
+        },
+        brand: {
+          select: { id: true, name: true, slug: true }
+        },
+        images: {
+          select: { id: true, url: true, alt: true, isPrimary: true },
+          orderBy: { isPrimary: 'desc' }
+        },
+        reviews: {
+          select: { rating: true }
+        }
+      }
+    });
+
+    // Calculate average rating for each product
+    const productsWithRating = result.data.map(product => ({
+      ...product,
+      averageRating: product.reviews.length > 0
+        ? product.reviews.reduce((sum, review) => sum + review.rating, 0) / product.reviews.length
+        : 0,
+      reviewCount: product.reviews.length
+    }));
+
+    res.json({
+      success: true,
+      data: {
+        items: productsWithRating,
+        pagination: result.pagination
+      }
+    });
+
+  } catch (error) {
+    logger.error('Get new products error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to get new products'
+    });
+  }
+});
+
+// Get products on sale
+router.get('/on-sale', async (req, res) => {
+  try {
+    const { page = 1, limit = 12 } = req.query;
+
+    const result = await searchWithPagination('product', {
+      where: {
+        status: 'ACTIVE',
+        isActive: true,
+        salePrice: {
+          not: null
+        }
+      },
+      orderBy: {
+        createdAt: 'desc'
+      },
+      page: parseInt(page),
+      limit: parseInt(limit),
+      include: {
+        category: {
+          select: { id: true, name: true, slug: true }
+        },
+        brand: {
+          select: { id: true, name: true, slug: true }
+        },
+        images: {
+          select: { id: true, url: true, alt: true, isPrimary: true },
+          orderBy: { isPrimary: 'desc' }
+        },
+        reviews: {
+          select: { rating: true }
+        }
+      }
+    });
+
+    // Calculate average rating and discount for each product
+    const productsWithRating = result.data.map(product => ({
+      ...product,
+      averageRating: product.reviews.length > 0
+        ? product.reviews.reduce((sum, review) => sum + review.rating, 0) / product.reviews.length
+        : 0,
+      reviewCount: product.reviews.length,
+      discountPercentage: product.salePrice
+        ? Math.round(((product.price - product.salePrice) / product.price) * 100)
+        : 0
+    }));
+
+    res.json({
+      success: true,
+      data: {
+        items: productsWithRating,
+        pagination: result.pagination
+      }
+    });
+
+  } catch (error) {
+    logger.error('Get sale products error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to get sale products'
+    });
+  }
+});
+
+// Get related products
+router.get('/:id/related', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { limit = 8 } = req.query;
+
+    // First get the product to find its category
+    const product = await prisma.product.findUnique({
+      where: { id },
+      select: { categoryId: true, brandId: true }
+    });
+
+    if (!product) {
+      return res.status(404).json({
+        success: false,
+        message: 'Product not found'
+      });
+    }
+
+    // Get related products from same category or brand, excluding current product
+    const relatedProducts = await prisma.product.findMany({
+      where: {
+        status: 'ACTIVE',
+        isActive: true,
+        id: { not: id },
+        OR: [
+          { categoryId: product.categoryId },
+          { brandId: product.brandId }
+        ]
+      },
+      take: parseInt(limit),
+      orderBy: {
+        createdAt: 'desc'
+      },
+      include: {
+        category: {
+          select: { id: true, name: true, slug: true }
+        },
+        brand: {
+          select: { id: true, name: true, slug: true }
+        },
+        images: {
+          select: { id: true, url: true, alt: true, isPrimary: true },
+          orderBy: { isPrimary: 'desc' }
+        },
+        reviews: {
+          select: { rating: true }
+        }
+      }
+    });
+
+    // Calculate average rating for each product
+    const productsWithRating = relatedProducts.map(product => ({
+      ...product,
+      averageRating: product.reviews.length > 0
+        ? product.reviews.reduce((sum, review) => sum + review.rating, 0) / product.reviews.length
+        : 0,
+      reviewCount: product.reviews.length
+    }));
+
+    res.json({
+      success: true,
+      data: {
+        items: productsWithRating
+      }
+    });
+
+  } catch (error) {
+    logger.error('Get related products error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to get related products'
+    });
+  }
+});
+
 export default router;

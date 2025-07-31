@@ -45,7 +45,7 @@ apiClient.interceptors.response.use(
           });
 
           const { accessToken, refreshToken: newRefreshToken } = response.data.data.tokens;
-          
+
           localStorage.setItem('accessToken', accessToken);
           localStorage.setItem('refreshToken', newRefreshToken);
 
@@ -57,9 +57,26 @@ apiClient.interceptors.response.use(
         // Refresh failed, redirect to login
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
-        window.location.href = '/login';
+
+        // Dispatch custom event for logout
+        window.dispatchEvent(new CustomEvent('auth:logout'));
+
+        // Only redirect if not already on login page
+        if (!window.location.pathname.includes('/login')) {
+          window.location.href = '/login';
+        }
+
         return Promise.reject(refreshError);
       }
+    }
+
+    // Handle other error responses
+    if (error.response?.status === 403) {
+      // Access denied
+      console.error('Access denied:', error.response.data.message);
+    } else if (error.response?.status >= 500) {
+      // Server error
+      console.error('Server error:', error.response.data.message);
     }
 
     return Promise.reject(error);
@@ -83,6 +100,8 @@ export const api = {
     getById: (id) => apiClient.get(`/products/${id}`),
     getFeatured: (params) => apiClient.get('/products/featured', { params }),
     getNew: (params) => apiClient.get('/products/new', { params }),
+    getOnSale: (params) => apiClient.get('/products/on-sale', { params }),
+    getRelated: (id, params) => apiClient.get(`/products/${id}/related`, { params }),
     create: (data) => apiClient.post('/products', data),
     update: (id, data) => apiClient.put(`/products/${id}`, data),
     delete: (id) => apiClient.delete(`/products/${id}`),
