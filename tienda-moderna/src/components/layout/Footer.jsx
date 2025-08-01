@@ -23,14 +23,14 @@ const Footer = () => {
                 justifyContent: 'center',
                 marginRight: '8px'
               }}>
-                <span style={{ color: 'white', fontWeight: 'bold', fontSize: '16px' }}>T</span>
+                <span style={{ color: 'white', fontWeight: 'bold', fontSize: '16px' }}>C</span>
               </div>
               <span style={{ fontSize: '20px', fontWeight: 'bold' }}>
-                Tienda Moderna
+                CleanPro
               </span>
             </div>
             <p style={{ color: '#94a3b8', lineHeight: '1.6', marginBottom: '1rem' }}>
-              Tu tienda online de productos de limpieza de alta calidad en Colombia.
+              Tu tienda online de productos de aseo profesional de alta calidad en Colombia.
             </p>
             <div style={{ display: 'flex', gap: '1rem' }}>
               <a href="#" style={{ color: '#94a3b8', fontSize: '20px', textDecoration: 'none' }}>📘</a>
@@ -127,7 +127,7 @@ const Footer = () => {
           gap: '1rem'
         }}>
           <div style={{ color: '#94a3b8', fontSize: '14px' }}>
-            © 2024 Tienda Moderna. Todos los derechos reservados.
+            © 2024 CleanPro. Todos los derechos reservados.
           </div>
           <div style={{ display: 'flex', gap: '1.5rem' }}>
             <a href="#" style={{ color: '#94a3b8', fontSize: '14px', textDecoration: 'none' }}>
@@ -143,7 +143,7 @@ const Footer = () => {
         </div>
       </div>
 
-      <style jsx>{`
+      <style>{`
         @media (max-width: 768px) {
           .grid {
             grid-template-columns: repeat(2, 1fr) !important;

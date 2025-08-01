@@ -209,9 +209,12 @@ const validatePagination = [
 ];
 
 const validateProductSearch = [
-  query('search').optional().isLength({ min: 2, max: 100 }).withMessage('Search debe tener entre 2 y 100 caracteres'),
-  query('category').optional().isAlphanumeric('es-ES', { ignore: '-_' }).withMessage('Category inválida'),
-  query('brand').optional().isAlphanumeric('es-ES', { ignore: '-_' }).withMessage('Brand inválida')
+  query('search').optional().isLength({ min: 0, max: 100 }).withMessage('Search debe tener máximo 100 caracteres'),
+  query('category').optional().isLength({ min: 0, max: 50 }).withMessage('Category debe tener máximo 50 caracteres'),
+  query('brand').optional().isLength({ min: 0, max: 50 }).withMessage('Brand debe tener máximo 50 caracteres'),
+  query('minPrice').optional().isFloat({ min: 0 }).withMessage('MinPrice debe ser un número positivo'),
+  query('maxPrice').optional().isFloat({ min: 0 }).withMessage('MaxPrice debe ser un número positivo'),
+  query('sortBy').optional().isIn(['name', 'price-asc', 'price-desc', 'rating']).withMessage('SortBy inválido')
 ];
 
 const validateProductId = [
@@ -763,7 +766,7 @@ app.get('/api/products',
   validateProductSearch,
   handleValidationErrors,
   async (req, res) => {
-  const { category, brand, search, limit = 12, page = 1, sort = 'name' } = req.query;
+  const { category, brand, search, limit = 12, page = 1, sort = 'name', minPrice, maxPrice } = req.query;
   const limitNum = Math.min(parseInt(limit), 100); // Máximo 100 productos por página
   const pageNum = Math.max(parseInt(page), 1);
 
@@ -808,6 +811,15 @@ app.get('/api/products',
           (p.tags && p.tags.some(tag => tag.toLowerCase().includes(searchLower)))
         );
       }
+    }
+
+    // Filtrar por rango de precio
+    if (minPrice || maxPrice) {
+      const min = minPrice ? parseFloat(minPrice) : 0;
+      const max = maxPrice ? parseFloat(maxPrice) : Infinity;
+      filteredProducts = filteredProducts.filter(p =>
+        p.price >= min && p.price <= max
+      );
     }
 
     // Ordenamiento

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { useNotification } from '../context/NotificationContext';
+import ReviewSystem from '../components/ui/ReviewSystem';
 import { useCart } from '../context/CartContext';
 import { ShoppingCart, Heart, Star, ArrowLeft, Plus, Minus } from 'lucide-react';
 
@@ -68,18 +70,49 @@ const ProductDetail = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Breadcrumb */}
-        <div className="mb-8">
-          <Link 
-            to="/products" 
-            className="inline-flex items-center text-blue-600 hover:text-blue-800"
-          >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Volver a productos
-          </Link>
+    <div>
+      {/* Hero Section */}
+      <section style={{
+        background: 'linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%)',
+        color: 'white',
+        padding: '3rem 0',
+        position: 'relative',
+        overflow: 'hidden'
+      }}>
+        <div className="container">
+          {/* Breadcrumb */}
+          <div className="mb-4">
+            <Link
+              to="/products"
+              style={{
+                color: 'white',
+                textDecoration: 'none',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                opacity: 0.9,
+                transition: 'var(--transition)'
+              }}
+              className="hover-scale"
+            >
+              ← Volver a productos
+            </Link>
+          </div>
+
+          <h1 style={{
+            fontSize: '2.5rem',
+            fontWeight: '900',
+            textShadow: '0 4px 8px rgba(0,0,0,0.3)',
+            marginBottom: '0.5rem'
+          }}>
+            📦 {product.name}
+          </h1>
         </div>
+      </section>
+
+      {/* Product Section */}
+      <section className="py-12" style={{ backgroundColor: 'var(--light-gray)' }}>
+        <div className="container">
 
         <div className="bg-white rounded-lg shadow-lg overflow-hidden">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 p-8">
@@ -200,7 +233,14 @@ const ProductDetail = () => {
             </div>
           </div>
         </div>
-      </div>
+
+        {/* Reviews Section */}
+        <ReviewSystem
+          productId={product.id}
+          productName={product.name}
+        />
+        </div>
+      </section>
     </div>
   );
 };

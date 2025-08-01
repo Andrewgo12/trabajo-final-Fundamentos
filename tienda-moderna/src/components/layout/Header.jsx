@@ -1,10 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import SearchModal from '../ui/SearchModal';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
+  const [showSearchModal, setShowSearchModal] = useState(false);
   const [authMode, setAuthMode] = useState('login'); // 'login' or 'register'
+  const [cartItemCount, setCartItemCount] = useState(0);
+
+  useEffect(() => {
+    updateCartCount();
+
+    // Escuchar cambios en el carrito
+    const handleCartUpdate = () => {
+      updateCartCount();
+    };
+
+    window.addEventListener('cartUpdated', handleCartUpdate);
+    return () => window.removeEventListener('cartUpdated', handleCartUpdate);
+  }, []);
+
+  const updateCartCount = () => {
+    try {
+      const savedCart = localStorage.getItem('cleanpro_cart');
+      if (savedCart) {
+        const cartItems = JSON.parse(savedCart);
+        const count = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+        setCartItemCount(count);
+      } else {
+        setCartItemCount(0);
+      }
+    } catch (error) {
+      console.error('Error updating cart count:', error);
+      setCartItemCount(0);
+    }
+  };
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -118,6 +149,23 @@ const Header = () => {
                 </button>
               </Link>
 
+              {/* Search Button */}
+              <button
+                onClick={() => setShowSearchModal(true)}
+                style={{
+                  background: 'var(--light-gray)',
+                  border: '2px solid var(--border-color)',
+                  cursor: 'pointer',
+                  padding: '12px',
+                  borderRadius: 'var(--radius)',
+                  transition: 'var(--transition)'
+                }}
+                className="hover-lift"
+                title="Buscar productos"
+              >
+                <span style={{ fontSize: '20px' }}>🔍</span>
+              </button>
+
               {/* Wishlist */}
               <Link to="/wishlist" style={{ textDecoration: 'none' }} className="hover-lift">
                 <button style={{
@@ -130,6 +178,49 @@ const Header = () => {
                 }}>
                   <span style={{ fontSize: '20px' }}>❤️</span>
                 </button>
+              </Link>
+
+              {/* Cart Button */}
+              <Link
+                to="/cart"
+                style={{
+                  position: 'relative',
+                  background: 'var(--light-gray)',
+                  color: 'var(--text-primary)',
+                  border: '2px solid var(--border-color)',
+                  borderRadius: '12px',
+                  padding: '0.75rem 1rem',
+                  fontSize: '0.875rem',
+                  textDecoration: 'none',
+                  transition: 'var(--transition)',
+                  fontWeight: '600',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem'
+                }}
+                className="hover-lift"
+              >
+                🛒 Carrito
+                {cartItemCount > 0 && (
+                  <span style={{
+                    position: 'absolute',
+                    top: '-8px',
+                    right: '-8px',
+                    background: 'var(--danger-color)',
+                    color: 'white',
+                    borderRadius: '50%',
+                    width: '24px',
+                    height: '24px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '0.75rem',
+                    fontWeight: '700',
+                    boxShadow: '0 2px 8px rgba(220, 38, 38, 0.3)'
+                  }}>
+                    {cartItemCount > 99 ? '99+' : cartItemCount}
+                  </span>
+                )}
               </Link>
 
               {/* Auth Button */}
@@ -451,6 +542,12 @@ const Header = () => {
           }
         }
       `}</style>
+
+      {/* Search Modal */}
+      <SearchModal
+        isOpen={showSearchModal}
+        onClose={() => setShowSearchModal(false)}
+      />
     </>
   );
 };
