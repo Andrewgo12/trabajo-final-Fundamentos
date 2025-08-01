@@ -35,8 +35,7 @@
     "clean:logs": "rm -rf logs/*.log",
     "clean:uploads": "rm -rf uploads/*",
     "backup:db": "mysqldump -u root -p tienda_moderna > backup_$(date +%Y%m%d_%H%M%S).sql",
-    "health": "node healthcheck.js",
-    "prepare": "husky install"
+    "health": "node healthcheck.js"
   },
   "keywords": [
     "ecommerce",
