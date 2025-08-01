@@ -1,361 +1,243 @@
-import React from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { 
-  Phone, 
-  Mail, 
-  MapPin, 
-  Clock, 
-  Send,
-  MessageCircle,
-  Headphones,
-  Globe
-} from 'lucide-react';
-import { motion } from 'framer-motion';
-import Button from '../components/ui/Button';
-import Input from '../components/ui/Input';
-import Card from '../components/ui/Card';
-import Breadcrumb from '../components/ui/Breadcrumb';
-import Badge from '../components/ui/Badge';
-import Rating from '../components/ui/Rating';
-import Progress from '../components/ui/Progress';
-import Tooltip from '../components/ui/Tooltip';
-import Modal from '../components/ui/Modal';
-import Tabs from '../components/ui/Tabs';
-import Accordion from '../components/ui/Accordion';
-import Loading from '../components/ui/Loading';
-import ErrorDisplay from '../components/ui/ErrorDisplay';
-import Dropdown from '../components/ui/Dropdown';
-import SearchBar from '../components/ui/SearchBar';
-import Pagination from '../components/ui/Pagination';
-
-// Validation schema
-const contactSchema = z.object({
-  name: z.string().min(1, 'El nombre es requerido'),
-  email: z.string().email('Email inválido'),
-  phone: z.string().optional(),
-  subject: z.string().min(1, 'El asunto es requerido'),
-  message: z.string().min(10, 'El mensaje debe tener al menos 10 caracteres'),
-});
+import React, { useState } from 'react';
 
 const Contact = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-    reset,
-  } = useForm({
-    resolver: zodResolver(contactSchema),
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: ''
   });
 
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [showModal, setShowModal] = useState(false);
-  const [activeTab, setActiveTab] = useState('form');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [currentPage, setCurrentPage] = useState(1);
-
-  // Simulate loading
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 1000);
-    return () => clearTimeout(timer);
-  }, []);
-
-  const onSubmit = async (data) => {
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    console.log('Contact form submitted:', data);
-    reset();
-    // Show success message
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    alert('¡Mensaje enviado! Nos pondremos en contacto contigo pronto.');
+    setFormData({ name: '', email: '', message: '' });
   };
 
-  const contactMethods = [
-    {
-      icon: Phone,
-      title: 'Teléfono',
-      description: 'Llámanos de lunes a viernes',
-      value: '+57 300 123 4567',
-      action: 'tel:+573001234567',
-      available: '9:00 AM - 6:00 PM'
-    },
-    {
-      icon: Mail,
-      title: 'Email',
-      description: 'Envíanos un correo electrónico',
-      value: 'info@tiendamoderna.com',
-      action: 'mailto:info@tiendamoderna.com',
-      available: 'Respuesta en 24 horas'
-    },
-    {
-      icon: MessageCircle,
-      title: 'WhatsApp',
-      description: 'Chatea con nosotros',
-      value: '+57 300 123 4567',
-      action: 'https://wa.me/573001234567',
-      available: '9:00 AM - 8:00 PM'
-    },
-    {
-      icon: Headphones,
-      title: 'Soporte Técnico',
-      description: 'Ayuda especializada',
-      value: 'soporte@tiendamoderna.com',
-      action: 'mailto:soporte@tiendamoderna.com',
-      available: 'Lun - Vie: 8:00 AM - 5:00 PM'
-    }
-  ];
-
-  const offices = [
-    {
-      name: 'Oficina Principal',
-      address: 'Calle 123 #45-67, Chapinero',
-      city: 'Bogotá, Colombia',
-      phone: '+57 1 234 5678',
-      hours: 'Lun - Vie: 8:00 AM - 6:00 PM'
-    },
-    {
-      name: 'Centro de Distribución',
-      address: 'Carrera 45 #78-90, Zona Industrial',
-      city: 'Medellín, Colombia',
-      phone: '+57 4 234 5678',
-      hours: 'Lun - Sáb: 7:00 AM - 5:00 PM'
-    }
-  ];
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Breadcrumb */}
-      <div className="bg-white border-b border-gray-100">
-        <div className="container-custom py-4">
-          <Breadcrumb items={[
-            { label: 'Contacto' }
-          ]} />
-        </div>
-      </div>
-
+    <div>
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-primary-600 to-accent-500 text-white">
-        <div className="container-custom py-16">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-center max-w-3xl mx-auto"
-          >
-            <h1 className="text-4xl lg:text-5xl font-display font-bold mb-6">
-              Contáctanos
+      <section style={{ 
+        background: 'linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%)',
+        color: 'white',
+        padding: '5rem 0',
+        position: 'relative',
+        overflow: 'hidden'
+      }}>
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'url("data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23ffffff" fill-opacity="0.1"%3E%3Ccircle cx="30" cy="30" r="2"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")',
+          opacity: 0.3
+        }}></div>
+        <div className="container text-center" style={{ position: 'relative', zIndex: 1 }}>
+          <div className="animate-fadeIn">
+            <h1 style={{ 
+              fontSize: '3.5rem', 
+              fontWeight: '900', 
+              marginBottom: '1.5rem',
+              textShadow: '0 4px 8px rgba(0,0,0,0.3)'
+            }}>
+              📞 Contáctanos
             </h1>
-            <p className="text-xl text-primary-100 mb-8">
-              Estamos aquí para ayudarte. Ponte en contacto con nosotros a través de cualquiera de nuestros canales de comunicación.
+            <p style={{ 
+              fontSize: '1.5rem', 
+              opacity: 0.95,
+              maxWidth: '600px',
+              margin: '0 auto',
+              lineHeight: 1.6
+            }}>
+              Estamos aquí para ayudarte con cualquier consulta
             </p>
-          </motion.div>
+          </div>
         </div>
-      </div>
+      </section>
 
-      <div className="container-custom py-16">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Contact Form */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.2 }}
-          >
-            <Card className="card">
-              <div className="card-header">
-                <h2 className="text-2xl font-display font-bold text-gray-900 mb-2">
+      {/* Contact Section */}
+      <section className="py-12" style={{ backgroundColor: 'var(--light-gray)' }}>
+        <div className="container">
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3rem', maxWidth: '1200px', margin: '0 auto' }}>
+            
+            {/* Contact Info */}
+            <div className="card hover-lift">
+              <div className="card-body" style={{ padding: '2.5rem' }}>
+                <h2 className="text-2xl font-bold title-with-line mb-6">
+                  Información de Contacto
+                </h2>
+                
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+                  <div style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem' }}>
+                    <div style={{ 
+                      width: '50px',
+                      height: '50px',
+                      background: 'linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%)',
+                      borderRadius: '50%',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: '1.5rem',
+                      flexShrink: 0
+                    }}>
+                      📞
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-bold mb-1">Teléfono</h3>
+                      <p style={{ color: 'var(--text-primary)', fontWeight: '600' }}>+57 300 123 4567</p>
+                      <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>Lunes a Viernes: 9:00 AM - 6:00 PM</p>
+                    </div>
+                  </div>
+
+                  <div style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem' }}>
+                    <div style={{ 
+                      width: '50px',
+                      height: '50px',
+                      background: 'linear-gradient(135deg, var(--success-color) 0%, #059669 100%)',
+                      borderRadius: '50%',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: '1.5rem',
+                      flexShrink: 0
+                    }}>
+                      ✉️
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-bold mb-1">Email</h3>
+                      <p style={{ color: 'var(--text-primary)', fontWeight: '600' }}>info@cleanpro.com</p>
+                      <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>Respuesta en 24 horas</p>
+                    </div>
+                  </div>
+
+                  <div style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem' }}>
+                    <div style={{ 
+                      width: '50px',
+                      height: '50px',
+                      background: 'linear-gradient(135deg, var(--warning-color) 0%, #f59e0b 100%)',
+                      borderRadius: '50%',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: '1.5rem',
+                      flexShrink: 0
+                    }}>
+                      📍
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-bold mb-1">Dirección</h3>
+                      <p style={{ color: 'var(--text-primary)', fontWeight: '600' }}>Calle 123 #45-67</p>
+                      <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>Bogotá, Colombia</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Contact Form */}
+            <div className="card hover-lift">
+              <div className="card-body" style={{ padding: '2.5rem' }}>
+                <h2 className="text-2xl font-bold title-with-line mb-6">
                   Envíanos un Mensaje
                 </h2>
-                <p className="text-gray-600">
-                  Completa el formulario y te responderemos lo antes posible.
-                </p>
-              </div>
-              <div className="card-content">
-                <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <Input
-                      {...register('name')}
-                      label="Nombre Completo"
-                      placeholder="Tu nombre"
-                      error={errors.name?.message}
-                      className="input"
+                
+                <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                  <div className="form-group">
+                    <input
+                      type="text"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      placeholder="Nombre Completo"
+                      className="form-input"
+                      required
+                      style={{
+                        border: '2px solid var(--border-color)',
+                        borderRadius: '12px',
+                        padding: '1rem',
+                        fontSize: '0.875rem',
+                        transition: 'var(--transition)',
+                        width: '100%'
+                      }}
                     />
-                    <Input
-                      {...register('email')}
+                  </div>
+                  
+                  <div className="form-group">
+                    <input
                       type="email"
-                      label="Correo Electrónico"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
                       placeholder="tu@email.com"
-                      error={errors.email?.message}
-                      className="input"
+                      className="form-input"
+                      required
+                      style={{
+                        border: '2px solid var(--border-color)',
+                        borderRadius: '12px',
+                        padding: '1rem',
+                        fontSize: '0.875rem',
+                        transition: 'var(--transition)',
+                        width: '100%'
+                      }}
                     />
                   </div>
                   
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <Input
-                      {...register('phone')}
-                      type="tel"
-                      label="Teléfono (Opcional)"
-                      placeholder="+57 300 123 4567"
-                      error={errors.phone?.message}
-                      className="input"
-                    />
-                    <Input
-                      {...register('subject')}
-                      label="Asunto"
-                      placeholder="¿En qué podemos ayudarte?"
-                      error={errors.subject?.message}
-                      className="input"
-                    />
-                  </div>
-                  
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Mensaje
-                    </label>
+                  <div className="form-group">
                     <textarea
-                      {...register('message')}
-                      rows={6}
-                      placeholder="Describe tu consulta o comentario..."
-                      className="input resize-none"
+                      name="message"
+                      value={formData.message}
+                      onChange={handleChange}
+                      placeholder="Escribe tu mensaje aquí..."
+                      className="form-input"
+                      rows="5"
+                      required
+                      style={{
+                        border: '2px solid var(--border-color)',
+                        borderRadius: '12px',
+                        padding: '1rem',
+                        fontSize: '0.875rem',
+                        transition: 'var(--transition)',
+                        width: '100%',
+                        resize: 'vertical',
+                        minHeight: '120px'
+                      }}
                     />
-                    {errors.message && (
-                      <p className="mt-1 text-sm text-error-600">{errors.message.message}</p>
-                    )}
                   </div>
                   
-                  <Button
+                  <button 
                     type="submit"
-                    disabled={isSubmitting}
-                    className="w-full btn btn-primary"
+                    style={{
+                      background: 'linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%)',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '12px',
+                      padding: '1rem 2rem',
+                      fontSize: '0.875rem',
+                      fontWeight: '600',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.5px',
+                      cursor: 'pointer',
+                      transition: 'var(--transition)',
+                      boxShadow: '0 4px 15px rgba(0, 102, 255, 0.3)',
+                      width: '100%'
+                    }}
+                    className="hover-lift"
                   >
-                    <Send className="w-4 h-4 mr-2" />
-                    {isSubmitting ? 'Enviando...' : 'Enviar Mensaje'}
-                  </Button>
+                    📤 Enviar Mensaje
+                  </button>
                 </form>
               </div>
-            </Card>
-          </motion.div>
-
-          {/* Contact Information */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.4 }}
-            className="space-y-8"
-          >
-            {/* Contact Methods */}
-            <div>
-              <h2 className="text-2xl font-display font-bold text-gray-900 mb-6">
-                Otros Canales de Contacto
-              </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {contactMethods.map((method, index) => (
-                  <motion.a
-                    key={index}
-                    href={method.action}
-                    target={method.action.startsWith('http') ? '_blank' : undefined}
-                    rel={method.action.startsWith('http') ? 'noopener noreferrer' : undefined}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.6 + index * 0.1 }}
-                    className="block"
-                  >
-                    <Card className="card card-hover h-full">
-                      <div className="card-content text-center">
-                        <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                          <method.icon className="w-6 h-6 text-primary-600" />
-                        </div>
-                        <h3 className="font-semibold text-gray-900 mb-2">
-                          {method.title}
-                        </h3>
-                        <p className="text-sm text-gray-600 mb-2">
-                          {method.description}
-                        </p>
-                        <p className="font-medium text-primary-600 mb-1">
-                          {method.value}
-                        </p>
-                        <p className="text-xs text-gray-500">
-                          {method.available}
-                        </p>
-                      </div>
-                    </Card>
-                  </motion.a>
-                ))}
-              </div>
             </div>
-
-            {/* Office Locations */}
-            <div>
-              <h2 className="text-2xl font-display font-bold text-gray-900 mb-6">
-                Nuestras Oficinas
-              </h2>
-              <div className="space-y-4">
-                {offices.map((office, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.8 + index * 0.1 }}
-                  >
-                    <Card className="card">
-                      <div className="card-content">
-                        <div className="flex items-start gap-4">
-                          <div className="w-10 h-10 bg-accent-100 rounded-full flex items-center justify-center flex-shrink-0">
-                            <MapPin className="w-5 h-5 text-accent-600" />
-                          </div>
-                          <div className="flex-1">
-                            <h3 className="font-semibold text-gray-900 mb-1">
-                              {office.name}
-                            </h3>
-                            <p className="text-gray-600 text-sm mb-1">
-                              {office.address}
-                            </p>
-                            <p className="text-gray-600 text-sm mb-2">
-                              {office.city}
-                            </p>
-                            <div className="flex items-center gap-4 text-sm">
-                              <div className="flex items-center gap-1">
-                                <Phone className="w-4 h-4 text-gray-400" />
-                                <span className="text-gray-600">{office.phone}</span>
-                              </div>
-                              <div className="flex items-center gap-1">
-                                <Clock className="w-4 h-4 text-gray-400" />
-                                <span className="text-gray-600">{office.hours}</span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </Card>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-
-            {/* FAQ Link */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.0 }}
-            >
-              <Card className="card bg-gradient-to-r from-primary-50 to-accent-50 border-primary-200">
-                <div className="card-content text-center">
-                  <Globe className="w-12 h-12 text-primary-600 mx-auto mb-4" />
-                  <h3 className="font-semibold text-gray-900 mb-2">
-                    ¿Tienes una pregunta frecuente?
-                  </h3>
-                  <p className="text-gray-600 text-sm mb-4">
-                    Revisa nuestra sección de preguntas frecuentes para encontrar respuestas rápidas.
-                  </p>
-                  <Button variant="outline" className="btn btn-outline">
-                    Ver Preguntas Frecuentes
-                  </Button>
-                </div>
-              </Card>
-            </motion.div>
-          </motion.div>
+          </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 };

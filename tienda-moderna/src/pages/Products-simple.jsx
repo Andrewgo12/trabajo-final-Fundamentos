@@ -1,33 +1,32 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
-import { ShoppingCart, ArrowLeft } from 'lucide-react';
+import { ShoppingCart, Heart, Search } from 'lucide-react';
 
-const Category = () => {
-  const { categoryId } = useParams();
+const Products = () => {
   const [products, setProducts] = useState([]);
-  const [category, setCategory] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   const { addToCart } = useCart();
 
   useEffect(() => {
-    fetchCategoryProducts();
-  }, [categoryId]);
+    fetchProducts();
+  }, [currentPage, searchTerm]);
 
-  const fetchCategoryProducts = async () => {
+  const fetchProducts = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`http://localhost:3001/api/products?category=${categoryId}`);
+      const response = await fetch(
+        `http://localhost:3001/api/products?page=${currentPage}&limit=12&search=${searchTerm}`
+      );
       const data = await response.json();
       setProducts(data.products || []);
-      
-      // Get category info
-      const categoryResponse = await fetch(`http://localhost:3001/api/categories`);
-      const categoryData = await categoryResponse.json();
-      const foundCategory = categoryData.find(cat => cat.id === categoryId);
-      setCategory(foundCategory);
+      setTotalPages(data.totalPages || 1);
     } catch (error) {
-      console.error('Error fetching category products:', error);
+      console.error('Error fetching products:', error);
+      setProducts([]);
     } finally {
       setLoading(false);
     }
@@ -60,40 +59,37 @@ const Category = () => {
   return (
     <div className="min-h-screen bg-gray-50 py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Breadcrumb */}
-        <div className="mb-8">
-          <Link 
-            to="/products" 
-            className="inline-flex items-center text-blue-600 hover:text-blue-800"
-          >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Volver a productos
-          </Link>
-        </div>
-
         {/* Header */}
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            {category?.name || 'Categoría'}
+            Nuestros Productos
           </h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            {category?.description || 'Productos de esta categoría'}
+            Descubre nuestra amplia selección de productos de limpieza de alta calidad
           </p>
+        </div>
+
+        {/* Search */}
+        <div className="mb-8">
+          <div className="relative max-w-md mx-auto">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+            <input
+              type="text"
+              placeholder="Buscar productos..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            />
+          </div>
         </div>
 
         {/* Products Grid */}
         {products.length === 0 ? (
           <div className="text-center py-12">
-            <p className="text-gray-600 text-lg">No se encontraron productos en esta categoría.</p>
-            <Link 
-              to="/products" 
-              className="text-blue-600 hover:text-blue-800 mt-4 inline-block"
-            >
-              Ver todos los productos
-            </Link>
+            <p className="text-gray-600 text-lg">No se encontraron productos.</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-12">
             {products.map((product) => (
               <div key={product.id} className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
                 <div className="aspect-w-1 aspect-h-1 w-full overflow-hidden bg-gray-200">
@@ -147,9 +143,34 @@ const Category = () => {
             ))}
           </div>
         )}
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="flex justify-center space-x-2">
+            <button
+              onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+              disabled={currentPage === 1}
+              className="px-4 py-2 border border-gray-300 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
+            >
+              Anterior
+            </button>
+            
+            <span className="px-4 py-2 bg-blue-600 text-white rounded-lg">
+              {currentPage} de {totalPages}
+            </span>
+            
+            <button
+              onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+              disabled={currentPage === totalPages}
+              className="px-4 py-2 border border-gray-300 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
+            >
+              Siguiente
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
 };
 
-export default Category;
+export default Products;

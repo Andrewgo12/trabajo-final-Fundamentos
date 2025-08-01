@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useReducer, useEffect } from 'react';
+import { createContext, useContext, useReducer, useEffect } from 'react';
 import { api } from '../services/apiClient';
 
 // Initial state
@@ -104,7 +104,7 @@ export const AuthProvider = ({ children }) => {
       const token = localStorage.getItem('auth_token');
       if (token) {
         try {
-          const userData = await authAPI.getCurrentUser(token);
+          const userData = await api.auth.me();
           dispatch({ type: AUTH_ACTIONS.LOGIN_SUCCESS, payload: userData });
         } catch (error) {
           localStorage.removeItem('auth_token');
@@ -124,7 +124,7 @@ export const AuthProvider = ({ children }) => {
       dispatch({ type: AUTH_ACTIONS.SET_LOADING, payload: true });
       dispatch({ type: AUTH_ACTIONS.CLEAR_ERROR });
       
-      const response = await authAPI.login(email, password);
+      const response = await api.auth.login({ email, password });
       localStorage.setItem('auth_token', response.token);
       
       dispatch({ type: AUTH_ACTIONS.LOGIN_SUCCESS, payload: response.user });
@@ -140,7 +140,7 @@ export const AuthProvider = ({ children }) => {
       dispatch({ type: AUTH_ACTIONS.SET_LOADING, payload: true });
       dispatch({ type: AUTH_ACTIONS.CLEAR_ERROR });
       
-      const response = await authAPI.register(userData);
+      const response = await api.auth.register(userData);
       localStorage.setItem('auth_token', response.token);
       
       dispatch({ type: AUTH_ACTIONS.LOGIN_SUCCESS, payload: response.user });
@@ -153,7 +153,7 @@ export const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     try {
-      await authAPI.logout();
+      await api.auth.logout();
       localStorage.removeItem('auth_token');
       dispatch({ type: AUTH_ACTIONS.LOGOUT });
       return { success: true };

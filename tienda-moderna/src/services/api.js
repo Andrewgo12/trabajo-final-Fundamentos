@@ -1,6 +1,10 @@
-import { products, categories } from '../data/products';
+import apiClient from './apiClient';
 
-// Simulación de delay de red
+// ===== CONFIGURACIÓN PARA USAR BACKEND REAL =====
+const USE_BACKEND = true; // Cambiar a false para usar datos simulados
+const API_BASE_URL = '/api';
+
+// Simulación de delay de red (solo para modo simulado)
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 // Simulación de base de datos de usuarios
@@ -43,10 +47,29 @@ let orders = [
   }
 ];
 
-// API de Productos
+// ===== API DE PRODUCTOS =====
 export const productsAPI = {
   // Obtener todos los productos
   getAll: async (filters = {}) => {
+    if (USE_BACKEND) {
+      try {
+        const params = new URLSearchParams();
+        if (filters.category) params.append('category', filters.category);
+        if (filters.brand) params.append('brand', filters.brand);
+        if (filters.search) params.append('search', filters.search);
+        if (filters.page) params.append('page', filters.page);
+        if (filters.limit) params.append('limit', filters.limit);
+        if (filters.sort) params.append('sort', filters.sort);
+
+        const response = await apiClient.get(`${API_BASE_URL}/products?${params}`);
+        return response.data;
+      } catch (error) {
+        console.error('Error fetching products:', error);
+        throw error;
+      }
+    }
+
+    // Fallback a datos simulados
     await delay(300);
     let filteredProducts = [...products];
     

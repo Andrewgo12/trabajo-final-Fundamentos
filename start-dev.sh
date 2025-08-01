@@ -143,8 +143,8 @@ trap cleanup SIGINT SIGTERM
 
 # Iniciar backend en segundo plano
 echo -e "${BLUE}🔧 Iniciando backend en puerto 3001...${NC}"
-cd tienda-moderna-backend
-npm run dev &
+cd tienda-moderna/backend
+node server.js &
 BACKEND_PID=$!
 cd ..
 

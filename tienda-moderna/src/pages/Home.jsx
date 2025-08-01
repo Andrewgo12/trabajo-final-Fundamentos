@@ -1,574 +1,375 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Star, Truck, Shield, CreditCard, Clock, Search, Filter, Grid, List } from 'lucide-react';
-import { motion } from 'framer-motion';
-import Button from '../components/ui/Button';
-import Card from '../components/ui/Card';
-import Badge from '../components/ui/Badge';
-import Input from '../components/ui/Input';
-import Loading from '../components/ui/Loading';
-import ErrorDisplay from '../components/ui/ErrorDisplay';
-import Rating from '../components/ui/Rating';
-import Progress from '../components/ui/Progress';
-import Tooltip from '../components/ui/Tooltip';
-import Modal from '../components/ui/Modal';
-import Tabs from '../components/ui/Tabs';
-import Accordion from '../components/ui/Accordion';
-import Dropdown from '../components/ui/Dropdown';
-import SearchBar from '../components/ui/SearchBar';
-import ProductCard from '../components/product/ProductCard';
-import { categories } from '../data/products';
-import { useFeaturedProducts } from '../hooks/useProducts';
 
 const Home = () => {
-  const { products: featuredProducts, loading: featuredLoading } = useFeaturedProducts();
-  const [showModal, setShowModal] = useState(false);
-  const [activeTab, setActiveTab] = useState('featured');
-  const [searchQuery, setSearchQuery] = useState('');
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  const fetchProducts = async () => {
+    try {
+      const response = await fetch('http://localhost:3001/api/products?limit=8');
+      const data = await response.json();
+      setProducts(data.products || []);
+    } catch (error) {
+      console.error('Error:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const addToCart = (product) => {
+    alert(`${product.name} agregado al carrito!`);
+  };
 
   return (
-    <div className="min-h-screen">
+    <div>
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-r from-primary-600 via-primary-700 to-accent-600 text-white overflow-hidden">
-        <div className="absolute inset-0 bg-black/20"></div>
-        <div className="relative container-custom py-20 lg:py-32">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-6">
-              <Badge variant="accent" className="text-white bg-white/20">
-                🎉 Gran Inauguración
-              </Badge>
-              <h1 className="text-4xl lg:text-6xl font-display font-bold leading-tight">
-                Tu hogar más
-                <span className="text-gradient bg-gradient-to-r from-accent-300 to-yellow-300 bg-clip-text text-transparent">
-                  {' '}limpio{' '}
-                </span>
-                que nunca
-              </h1>
-              <p className="text-xl text-primary-100 leading-relaxed">
-                Descubre nuestra amplia gama de productos de limpieza profesionales. 
-                Calidad garantizada, precios increíbles y envío gratis en compras superiores a $50.000.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Link to="/products">
-                  <Button
-                    variant="accent"
-                    size="lg"
-                    className="group"
-                  >
-                    Ver Productos
-                    <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                  </Button>
-                </Link>
-                <Link to="/offers">
-                  <Button
-                    variant="outline"
-                    size="lg"
-                    className="bg-white/10 border-white/30 text-white hover:bg-white/20"
-                  >
-                    Ver Ofertas
-                  </Button>
-                </Link>
-              </div>
-            </div>
-            <div className="relative">
-              <div className="relative z-10">
-                <img
-                  src="https://images.unsplash.com/photo-1563453392212-326f5e854473?w=600&h=600&fit=crop"
-                  alt="Productos de limpieza"
-                  className="rounded-2xl shadow-2xl"
-                />
-              </div>
-              <div className="absolute -top-4 -right-4 w-72 h-72 bg-accent-400/30 rounded-full blur-3xl"></div>
-              <div className="absolute -bottom-4 -left-4 w-72 h-72 bg-primary-400/30 rounded-full blur-3xl"></div>
+      <section style={{
+        background: 'var(--gradient-primary)',
+        color: 'white',
+        padding: '6rem 0',
+        position: 'relative',
+        overflow: 'hidden'
+      }}>
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'url("data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23ffffff" fill-opacity="0.1"%3E%3Ccircle cx="30" cy="30" r="2"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")',
+          opacity: 0.3
+        }}></div>
+        <div className="container text-center" style={{ position: 'relative', zIndex: 1 }}>
+          <div className="animate-fadeIn">
+            <h1 style={{
+              fontSize: '4rem',
+              fontWeight: '900',
+              marginBottom: '1.5rem',
+              textShadow: '0 4px 8px rgba(0,0,0,0.3)',
+              lineHeight: 1.1
+            }}>
+              🧽 CleanPro
+            </h1>
+            <p style={{
+              fontSize: '1.5rem',
+              marginBottom: '3rem',
+              opacity: 0.95,
+              maxWidth: '600px',
+              margin: '0 auto 3rem',
+              lineHeight: 1.6
+            }}>
+              Productos de aseo profesional para mantener tu hogar impecable
+            </p>
+            <div style={{ display: 'flex', gap: '1.5rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+              <Link to="/products" className="btn btn-secondary btn-xl hover-lift animate-slideInLeft">
+                🛍️ Ver Productos
+              </Link>
+              <Link to="/contact" className="btn btn-outline btn-xl hover-lift animate-slideInRight" style={{
+                borderColor: 'white',
+                color: 'white',
+                borderWidth: '2px'
+              }}>
+                📞 Contáctanos
+              </Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Features Section */}
-      <section className="py-16 bg-gray-50">
-        <div className="container-custom">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Truck className="w-8 h-8 text-primary-600" />
-              </div>
-              <h3 className="font-semibold text-gray-900 mb-2">Envío Gratis</h3>
-              <p className="text-gray-600 text-sm">En compras superiores a $50.000</p>
-            </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Shield className="w-8 h-8 text-green-600" />
-              </div>
-              <h3 className="font-semibold text-gray-900 mb-2">Compra Segura</h3>
-              <p className="text-gray-600 text-sm">Protección total de tus datos</p>
-            </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <CreditCard className="w-8 h-8 text-blue-600" />
-              </div>
-              <h3 className="font-semibold text-gray-900 mb-2">Múltiples Pagos</h3>
-              <p className="text-gray-600 text-sm">Tarjetas, PSE, efectivo</p>
-            </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-accent-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Clock className="w-8 h-8 text-accent-600" />
-              </div>
-              <h3 className="font-semibold text-gray-900 mb-2">Soporte 24/7</h3>
-              <p className="text-gray-600 text-sm">Atención personalizada</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Categories Section */}
-      <section className="section-padding">
-        <div className="container-custom">
+      {/* Features */}
+      <section className="py-12" style={{ backgroundColor: 'var(--light-gray)' }}>
+        <div className="container">
           <div className="text-center mb-12">
-            <h2 className="text-3xl lg:text-4xl font-display font-bold text-gray-900 mb-4">
-              Explora Nuestras Categorías
+            <h2 className="text-3xl font-bold title-with-line mb-4">
+              ¿Por qué elegir CleanPro?
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Encuentra exactamente lo que necesitas para mantener tu hogar impecable
+            <p style={{ color: 'var(--text-secondary)', fontSize: '1.125rem' }}>
+              La mejor experiencia en productos de aseo profesional
             </p>
           </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {categories.map((category) => (
-              <Card key={category.id} hover className="group cursor-pointer">
-                <Link to={`/category/${category.id}`}>
-                  <div className="aspect-video relative overflow-hidden">
-                    <img
-                      src={category.image}
-                      alt={category.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                    <div className="absolute bottom-4 left-4 text-white">
-                      <div className="text-2xl mb-2">{category.icon}</div>
-                      <h3 className="text-xl font-semibold">{category.name}</h3>
-                      <p className="text-sm text-gray-200">{category.description}</p>
-                    </div>
-                  </div>
-                </Link>
-              </Card>
-            ))}
+
+          <div className="grid grid-cols-3" style={{ gap: '2rem' }}>
+            <div className="card hover-lift animate-fadeIn text-center">
+              <div className="card-body">
+                <div style={{
+                  fontSize: '4rem',
+                  marginBottom: '1.5rem',
+                  background: 'var(--gradient-success)',
+                  width: '100px',
+                  height: '100px',
+                  borderRadius: '50%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  margin: '0 auto 1.5rem',
+                  boxShadow: 'var(--shadow-lg)',
+                  position: 'relative'
+                }}>
+                  <span style={{ filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.3))' }}>🚚</span>
+                </div>
+                <h3 className="text-xl font-bold mb-3 text-gradient">Envío Gratis</h3>
+                <p style={{ color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+                  En compras superiores a $50.000 en toda Colombia
+                </p>
+              </div>
+            </div>
+
+            <div className="card hover-lift animate-fadeIn text-center" style={{ animationDelay: '0.2s' }}>
+              <div className="card-body">
+                <div style={{
+                  fontSize: '4rem',
+                  marginBottom: '1.5rem',
+                  background: 'var(--gradient-primary)',
+                  width: '100px',
+                  height: '100px',
+                  borderRadius: '50%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  margin: '0 auto 1.5rem',
+                  boxShadow: 'var(--shadow-lg)'
+                }}>
+                  <span style={{ filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.3))' }}>🛡️</span>
+                </div>
+                <h3 className="text-xl font-bold mb-3 text-gradient">Calidad Garantizada</h3>
+                <p style={{ color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+                  Productos de las mejores marcas internacionales
+                </p>
+              </div>
+            </div>
+
+            <div className="card hover-lift animate-fadeIn text-center" style={{ animationDelay: '0.4s' }}>
+              <div className="card-body">
+                <div style={{
+                  fontSize: '4rem',
+                  marginBottom: '1.5rem',
+                  background: 'var(--gradient-secondary)',
+                  width: '100px',
+                  height: '100px',
+                  borderRadius: '50%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  margin: '0 auto 1.5rem',
+                  boxShadow: 'var(--shadow-lg)'
+                }}>
+                  <span style={{ filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.3))' }}>⚡</span>
+                </div>
+                <h3 className="text-xl font-bold mb-3 text-gradient">Entrega Rápida</h3>
+                <p style={{ color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+                  Recibe tu pedido en 24-48 horas máximo
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Featured Products */}
-      <section className="section-padding bg-gray-50">
-        <div className="container-custom">
-          <div className="flex justify-between items-center mb-12">
-            <div>
-              <h2 className="text-3xl lg:text-4xl font-display font-bold text-gray-900 mb-4">
-                Productos Destacados
-              </h2>
-              <p className="text-xl text-gray-600">
-                Los favoritos de nuestros clientes
-              </p>
-            </div>
-            <Link to="/products">
-              <Button variant="outline">
-                Ver Todos
-                <ArrowRight className="ml-2 w-4 h-4" />
-              </Button>
-            </Link>
+      {/* Products */}
+      <section className="py-12" style={{ backgroundColor: 'var(--light-gray)' }}>
+        <div className="container">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl font-bold mb-4">Productos Destacados</h2>
+            <p style={{ color: 'var(--dark-gray)' }}>
+              Descubre nuestros productos más populares
+            </p>
           </div>
 
-          {featuredLoading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {[...Array(6)].map((_, index) => (
-                <div key={index} className="animate-pulse">
-                  <div className="bg-gray-200 aspect-square rounded-t-xl"></div>
-                  <div className="bg-white p-6 rounded-b-xl border border-gray-100">
-                    <div className="h-4 bg-gray-200 rounded mb-2"></div>
-                    <div className="h-3 bg-gray-200 rounded mb-3"></div>
-                    <div className="h-6 bg-gray-200 rounded w-1/2"></div>
-                  </div>
-                </div>
-              ))}
+          {loading ? (
+            <div className="text-center">
+              <div className="spinner"></div>
+              <p className="mt-4">Cargando productos...</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {featuredProducts.slice(0, 6).map((product) => (
-                <ProductCard key={product.id} product={product} />
+            <div className="products-grid" style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(4, 1fr)',
+              gap: '1.5rem'
+            }}>
+              {products.slice(0, 8).map((product) => (
+                <div key={product.id} className="card-product" style={{
+                  background: 'var(--white)',
+                  borderRadius: '16px',
+                  overflow: 'hidden',
+                  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)',
+                  border: '1px solid var(--border-color)',
+                  transition: 'var(--transition)'
+                }}>
+                  <div style={{
+                    height: '220px',
+                    background: 'linear-gradient(135deg, var(--light-gray) 0%, var(--medium-gray) 100%)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '4rem',
+                    position: 'relative'
+                  }}>
+                    🧽
+                    <div style={{
+                      position: 'absolute',
+                      top: '12px',
+                      right: '12px',
+                      background: 'var(--success-color)',
+                      color: 'white',
+                      padding: '4px 8px',
+                      borderRadius: '12px',
+                      fontSize: '0.75rem',
+                      fontWeight: '600'
+                    }}>
+                      NUEVO
+                    </div>
+                  </div>
+
+                  <div style={{ padding: '1.5rem' }}>
+                    <h3 style={{
+                      fontSize: '1rem',
+                      fontWeight: '600',
+                      marginBottom: '0.75rem',
+                      height: '2.5rem',
+                      overflow: 'hidden',
+                      display: '-webkit-box',
+                      WebkitLineClamp: 2,
+                      WebkitBoxOrient: 'vertical',
+                      color: 'var(--text-primary)'
+                    }}>
+                      {product.name}
+                    </h3>
+
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      marginBottom: '1rem',
+                      gap: '0.5rem'
+                    }}>
+                      <div style={{ display: 'flex', color: '#fbbf24' }}>
+                        {'★'.repeat(5)}
+                      </div>
+                      <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>(4.8)</span>
+                    </div>
+
+                    <div style={{ marginBottom: '1.5rem' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                        <span style={{
+                          fontSize: '1.5rem',
+                          fontWeight: '700',
+                          color: 'var(--primary-color)'
+                        }}>
+                          ${product.price?.toLocaleString()}
+                        </span>
+                        {product.comparePrice && product.comparePrice > product.price && (
+                          <span style={{
+                            fontSize: '0.875rem',
+                            color: 'var(--text-secondary)',
+                            textDecoration: 'line-through'
+                          }}>
+                            ${product.comparePrice.toLocaleString()}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+
+                    <button
+                      onClick={() => addToCart(product)}
+                      style={{
+                        width: '100%',
+                        background: 'linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%)',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '12px',
+                        padding: '0.75rem',
+                        fontSize: '0.875rem',
+                        fontWeight: '600',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.5px',
+                        cursor: 'pointer',
+                        transition: 'var(--transition)',
+                        boxShadow: '0 4px 15px rgba(0, 102, 255, 0.3)'
+                      }}
+                    >
+                      🛒 Agregar
+                    </button>
+                  </div>
+                </div>
               ))}
             </div>
           )}
-        </div>
-      </section>
 
-      {/* Testimonials Section */}
-      <section className="py-16 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              Lo que dicen nuestros clientes
-            </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              Miles de familias confían en nosotros para mantener sus hogares limpios y seguros
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              {
-                name: "María González",
-                location: "Bogotá",
-                rating: 5,
-                comment: "Excelente calidad en todos los productos. Mi casa nunca había estado tan limpia y fresca.",
-                avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=64&h=64&fit=crop&crop=face"
-              },
-              {
-                name: "Carlos Rodríguez",
-                location: "Medellín",
-                rating: 5,
-                comment: "El servicio de entrega es súper rápido y los precios son muy competitivos. Totalmente recomendado.",
-                avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=64&h=64&fit=crop&crop=face"
-              },
-              {
-                name: "Ana Martínez",
-                location: "Cali",
-                rating: 5,
-                comment: "Los productos eco-amigables son fantásticos. Cuido el medio ambiente sin sacrificar la limpieza.",
-                avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=64&h=64&fit=crop&crop=face"
-              }
-            ].map((testimonial, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                className="bg-white p-6 rounded-xl shadow-sm"
-              >
-                <div className="flex items-center mb-4">
-                  <img
-                    src={testimonial.avatar}
-                    alt={testimonial.name}
-                    className="w-12 h-12 rounded-full mr-4"
-                  />
-                  <div>
-                    <h4 className="font-semibold text-gray-900">{testimonial.name}</h4>
-                    <p className="text-gray-600 text-sm">{testimonial.location}</p>
-                  </div>
-                </div>
-
-                <div className="flex mb-3">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 text-yellow-400 fill-current" />
-                  ))}
-                </div>
-
-                <p className="text-gray-700 italic">"{testimonial.comment}"</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Stats Section */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            {[
-              { number: "50,000+", label: "Clientes Satisfechos", icon: "👥" },
-              { number: "500+", label: "Productos Disponibles", icon: "🧽" },
-              { number: "24h", label: "Entrega Rápida", icon: "🚚" },
-              { number: "99%", label: "Satisfacción Garantizada", icon: "⭐" }
-            ].map((stat, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, scale: 0.5 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ delay: index * 0.1 }}
-                className="text-center"
-              >
-                <div className="text-4xl mb-2">{stat.icon}</div>
-                <div className="text-3xl font-bold text-primary-600 mb-2">{stat.number}</div>
-                <div className="text-gray-600">{stat.label}</div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Newsletter Section */}
-      <section className="section-padding bg-primary-600 text-white">
-        <div className="container-custom text-center">
-          <h2 className="text-3xl lg:text-4xl font-display font-bold mb-4">
-            ¡No te pierdas nuestras ofertas!
-          </h2>
-          <p className="text-xl text-primary-100 mb-8 max-w-2xl mx-auto">
-            Suscríbete a nuestro newsletter y recibe descuentos exclusivos, 
-            nuevos productos y consejos de limpieza directamente en tu correo.
-          </p>
-          <div className="max-w-md mx-auto flex">
-            <input
-              type="email"
-              placeholder="Tu correo electrónico"
-              className="flex-1 px-4 py-3 rounded-l-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-300"
-            />
-            <Button 
-              variant="accent" 
-              className="rounded-l-none px-6"
-            >
-              Suscribirse
-            </Button>
-          </div>
-
-          <div className="flex justify-center items-center mt-8 space-x-6 text-primary-100">
-            <div className="flex items-center">
-              <Shield className="w-5 h-5 mr-2" />
-              <span className="text-sm">100% Seguro</span>
-            </div>
-            <div className="flex items-center">
-              <Truck className="w-5 h-5 mr-2" />
-              <span className="text-sm">Envío Gratis</span>
-            </div>
-            <div className="flex items-center">
-              <CreditCard className="w-5 h-5 mr-2" />
-              <span className="text-sm">Pago Fácil</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Blog Preview Section */}
-      <section className="py-16 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="flex justify-between items-center mb-12">
-            <div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">
-                Consejos de Limpieza
-              </h2>
-              <p className="text-gray-600">
-                Aprende técnicas profesionales para mantener tu hogar impecable
-              </p>
-            </div>
-            <Link to="/blog">
-              <Button variant="outline" className="btn btn-outline">
-                Ver Todos los Artículos
-                <ArrowRight className="w-4 h-4 ml-2" />
-              </Button>
+          <div className="text-center mt-8">
+            <Link to="/products" className="btn btn-primary btn-lg">
+              Ver Todos los Productos
             </Link>
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              {
-                title: "Cómo limpiar vidrios sin dejar marcas",
-                excerpt: "Descubre el secreto para obtener vidrios cristalinos usando productos caseros y técnicas profesionales.",
-                image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=250&fit=crop",
-                date: "15 Mar 2024",
-                readTime: "5 min"
-              },
-              {
-                title: "Desinfección efectiva contra virus y bacterias",
-                excerpt: "Guía completa sobre los mejores desinfectantes y métodos para proteger tu familia.",
-                image: "https://images.unsplash.com/photo-1584464491033-06628f3a6b7b?w=400&h=250&fit=crop",
-                date: "12 Mar 2024",
-                readTime: "7 min"
-              },
-              {
-                title: "Productos eco-amigables para el hogar",
-                excerpt: "Alternativas naturales que cuidan el medio ambiente sin comprometer la limpieza.",
-                image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=250&fit=crop",
-                date: "10 Mar 2024",
-                readTime: "4 min"
-              }
-            ].map((article, index) => (
-              <motion.article
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                className="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-shadow"
-              >
-                <img
-                  src={article.image}
-                  alt={article.title}
-                  className="w-full h-48 object-cover"
-                />
-                <div className="p-6">
-                  <div className="flex items-center text-sm text-gray-500 mb-3">
-                    <Clock className="w-4 h-4 mr-1" />
-                    <span>{article.readTime}</span>
-                    <span className="mx-2">•</span>
-                    <span>{article.date}</span>
-                  </div>
-
-                  <h3 className="text-xl font-semibold text-gray-900 mb-3">
-                    {article.title}
-                  </h3>
-
-                  <p className="text-gray-600 mb-4">
-                    {article.excerpt}
-                  </p>
-
-                  <Link
-                    to="/blog"
-                    className="text-primary-600 hover:text-primary-700 font-medium inline-flex items-center"
-                  >
-                    Leer más
-                    <ArrowRight className="w-4 h-4 ml-1" />
-                  </Link>
-                </div>
-              </motion.article>
-            ))}
-          </div>
         </div>
       </section>
 
-      {/* Interactive Components Demo Section */}
-      <section className="py-16 bg-white">
-        <div className="container-custom">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-center mb-12"
+      {/* CTA */}
+      <section className="py-12" style={{ backgroundColor: 'var(--primary-color)', color: 'white' }}>
+        <div className="container text-center">
+          <h2 className="text-3xl font-bold mb-4">
+            ¿Necesitas ayuda para elegir?
+          </h2>
+          <p className="text-xl mb-6" style={{ opacity: 0.9 }}>
+            Nuestro equipo está aquí para ayudarte a encontrar los productos perfectos.
+          </p>
+          <Link 
+            to="/contact" 
+            className="btn btn-secondary"
           >
-            <h2 className="text-3xl lg:text-4xl font-display font-bold text-gray-900 mb-4">
-              Experiencia Interactiva
-            </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Descubre todas las funcionalidades de nuestra plataforma
-            </p>
-          </motion.div>
-
-          {/* Search Bar Demo */}
-          <div className="mb-8">
-            <SearchBar
-              value={searchQuery}
-              onChange={setSearchQuery}
-              placeholder="Busca productos, marcas o categorías..."
-              className="max-w-2xl mx-auto"
-            />
-          </div>
-
-          {/* Tabs Demo */}
-          <div className="mb-8">
-            <Tabs
-              tabs={[
-                { id: 'featured', label: 'Destacados', icon: Star },
-                { id: 'new', label: 'Nuevos', icon: Clock },
-                { id: 'offers', label: 'Ofertas', icon: Badge }
-              ]}
-              activeTab={activeTab}
-              onTabChange={setActiveTab}
-            />
-          </div>
-
-          {/* Progress Demo */}
-          <div className="mb-8">
-            <Card className="card max-w-md mx-auto">
-              <div className="card-content">
-                <h3 className="font-semibold mb-4">Tu progreso hacia envío gratis</h3>
-                <Progress value={75} max={100} className="mb-2" />
-                <p className="text-sm text-gray-600">Te faltan $12.500 para envío gratis</p>
-              </div>
-            </Card>
-          </div>
-
-          {/* Rating Demo */}
-          <div className="mb-8">
-            <Card className="card max-w-md mx-auto">
-              <div className="card-content text-center">
-                <h3 className="font-semibold mb-4">Califica tu experiencia</h3>
-                <Rating value={4.5} size="lg" showValue />
-                <p className="text-sm text-gray-600 mt-2">4.5 de 5 estrellas</p>
-              </div>
-            </Card>
-          </div>
-
-          {/* Tooltip Demo */}
-          <div className="mb-8 text-center">
-            <Tooltip content="¡Haz clic para ver ofertas especiales!">
-              <Button onClick={() => setShowModal(true)} className="btn btn-primary">
-                Ver Ofertas Especiales
-              </Button>
-            </Tooltip>
-          </div>
-
-          {/* Accordion Demo */}
-          <div className="mb-8 max-w-2xl mx-auto">
-            <Accordion
-              items={[
-                {
-                  id: 'shipping',
-                  title: '¿Cómo funciona el envío?',
-                  content: 'Ofrecemos envío gratis en compras superiores a $50.000. Los pedidos se procesan en 24-48 horas.'
-                },
-                {
-                  id: 'returns',
-                  title: '¿Puedo devolver un producto?',
-                  content: 'Sí, aceptamos devoluciones dentro de los primeros 30 días con el producto en perfecto estado.'
-                },
-                {
-                  id: 'quality',
-                  title: '¿Garantizan la calidad?',
-                  content: 'Todos nuestros productos pasan por estrictos controles de calidad y ofrecemos garantía completa.'
-                }
-              ]}
-            />
-          </div>
-
-          {/* Dropdown Demo */}
-          <div className="text-center">
-            <Dropdown
-              trigger={
-                <Button variant="outline">
-                  <Filter className="w-4 h-4 mr-2" />
-                  Filtrar por categoría
-                </Button>
-              }
-              items={[
-                { label: 'Limpieza General', value: 'general' },
-                { label: 'Desinfectantes', value: 'disinfectants' },
-                { label: 'Eco-Amigables', value: 'eco' },
-                { label: 'Profesionales', value: 'professional' }
-              ]}
-              onSelect={(item) => console.log('Selected:', item)}
-            />
-          </div>
+            Contáctanos Ahora
+          </Link>
         </div>
       </section>
 
-      {/* Modal Demo */}
-      <Modal
-        isOpen={showModal}
-        onClose={() => setShowModal(false)}
-        title="Ofertas Especiales"
-      >
-        <div className="space-y-4">
-          <p>¡Descubre nuestras ofertas exclusivas!</p>
-          <div className="grid grid-cols-1 gap-4">
-            <div className="flex items-center justify-between p-4 bg-red-50 rounded-lg">
-              <div>
-                <h4 className="font-semibold text-red-900">Descuento 20%</h4>
-                <p className="text-red-700">En productos de limpieza general</p>
-              </div>
-              <Badge variant="error">-20%</Badge>
-            </div>
-            <div className="flex items-center justify-between p-4 bg-green-50 rounded-lg">
-              <div>
-                <h4 className="font-semibold text-green-900">Envío Gratis</h4>
-                <p className="text-green-700">En compras superiores a $30.000</p>
-              </div>
-              <Badge variant="success">GRATIS</Badge>
-            </div>
-          </div>
-          <div className="flex gap-2 pt-4">
-            <Button onClick={() => setShowModal(false)} className="flex-1">
-              Ver Ofertas
-            </Button>
-            <Button variant="outline" onClick={() => setShowModal(false)} className="flex-1">
-              Cerrar
-            </Button>
-          </div>
-        </div>
-      </Modal>
+      <style>{`
+        @media (max-width: 1024px) {
+          .grid-cols-3, .grid-cols-4 {
+            grid-template-columns: repeat(3, 1fr) !important;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .grid-cols-3, .grid-cols-4 {
+            grid-template-columns: repeat(2, 1fr) !important;
+          }
+
+          h1 {
+            font-size: 2.5rem !important;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .grid-cols-3, .grid-cols-4 {
+            grid-template-columns: 1fr !important;
+          }
+
+          h1 {
+            font-size: 2rem !important;
+          }
+
+          .text-3xl {
+            font-size: 1.5rem !important;
+          }
+
+          .container {
+            padding: 0 1rem !important;
+          }
+        }
+
+        .card-product:hover {
+          transform: translateY(-8px);
+          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15) !important;
+        }
+
+        .card-product button:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 25px rgba(0, 102, 255, 0.4) !important;
+        }
+      `}</style>
     </div>
   );
 };

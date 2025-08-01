@@ -338,9 +338,153 @@ export const getProductById = (id) => {
   return products.find(product => product.id === parseInt(id));
 };
 
+// ===== FUNCIÓN PARA GENERAR EXACTAMENTE 500 PRODUCTOS ÚNICOS =====
+function generateExactly500Products() {
+  // Contar productos base existentes
+  const baseProductCount = products.length; // Should be 10
+  const targetTotal = 500;
+  const productsToGenerate = targetTotal - baseProductCount;
+
+  console.log(`Base products: ${baseProductCount}, Need to generate: ${productsToGenerate}`);
+
+  const productTemplates = [
+    {
+      name: "Detergente Líquido",
+      category: "detergentes",
+      basePrice: 15000,
+      description: "Detergente concentrado para ropa con fórmula avanzada",
+      tags: ["detergente", "líquido", "ropa", "concentrado"]
+    },
+    {
+      name: "Desinfectante Multiusos",
+      category: "desinfectantes",
+      basePrice: 12000,
+      description: "Desinfectante que elimina 99.9% de gérmenes y bacterias",
+      tags: ["desinfectante", "antibacterial", "multiusos", "gérmenes"]
+    },
+    {
+      name: "Limpiador de Pisos",
+      category: "limpieza-general",
+      basePrice: 8000,
+      description: "Limpiador especializado para todo tipo de pisos",
+      tags: ["limpiador", "pisos", "hogar", "brillante"]
+    },
+    {
+      name: "Papel Higiénico",
+      category: "papel-higiene",
+      basePrice: 25000,
+      description: "Papel higiénico suave y resistente, paquete familiar",
+      tags: ["papel", "higiénico", "suave", "familiar"]
+    },
+    {
+      name: "Escoba",
+      category: "herramientas",
+      basePrice: 18000,
+      description: "Escoba de cerdas sintéticas para limpieza eficiente",
+      tags: ["escoba", "limpieza", "cerdas", "herramienta"]
+    },
+    {
+      name: "Jabón Antibacterial",
+      category: "cuidado-personal",
+      basePrice: 6000,
+      description: "Jabón líquido antibacterial para manos",
+      tags: ["jabón", "antibacterial", "manos", "líquido"]
+    },
+    {
+      name: "Toallas de Papel",
+      category: "papel-higiene",
+      basePrice: 8500,
+      description: "Toallas de papel absorbentes para cocina",
+      tags: ["toallas", "papel", "absorbente", "cocina"]
+    },
+    {
+      name: "Ambientador",
+      category: "cuidado-personal",
+      basePrice: 7500,
+      description: "Ambientador en spray para el hogar",
+      tags: ["ambientador", "spray", "hogar", "fragancia"]
+    }
+  ];
+
+  const variants = [
+    "Premium", "Económico", "Familiar", "Concentrado", "Extra Fuerte",
+    "Suave", "Natural", "Ecológico", "Profesional", "Industrial",
+    "Delicado", "Ultra", "Mega", "Super", "Plus", "Advanced", "Pro",
+    "Classic", "Original", "Fresh", "Clean", "Pure", "Active", "Power",
+    "Max", "Intense", "Gentle", "Strong", "Soft", "Heavy Duty"
+  ];
+
+  const sizes = ["250ml", "500ml", "750ml", "1L", "1.5L", "2L", "3L", "5L", "Pequeño", "Mediano", "Grande", "XL", "XXL", "Familiar"];
+  const scents = ["Lavanda", "Limón", "Eucalipto", "Menta", "Original", "Floral", "Cítrico", "Tropical", "Océano", "Vainilla", "Coco"];
+  const brands = ["Ariel", "Fabuloso", "Lysol", "Genérico", "Premium", "CleanMax", "SafeGuard", "EcoClean", "ProClean"];
+
+  const generatedProducts = [];
+  let currentId = 1011;
+  let productIndex = 0;
+
+  // Generar exactamente la cantidad necesaria de productos únicos
+  for (let i = 0; i < productsToGenerate; i++) {
+    const template = productTemplates[productIndex % productTemplates.length];
+    const variant = variants[i % variants.length];
+    const size = sizes[i % sizes.length];
+    const scent = (i % 3 === 0) ? scents[i % scents.length] : null;
+    const brand = brands[i % brands.length];
+
+    // Crear nombre único
+    const uniqueSuffix = Math.floor(i / productTemplates.length) + 1;
+    const name = `${template.name} ${variant} ${size}${scent ? ` ${scent}` : ''} ${uniqueSuffix > 1 ? `V${uniqueSuffix}` : ''}`.trim();
+
+    // Variación de precio basada en el índice para consistencia
+    const priceVariation = ((i % 20) - 10) / 50; // -20% a +20% variación
+    const price = Math.round(template.basePrice * (1 + priceVariation));
+    const originalPrice = Math.round(price * (1.1 + (i % 10) / 20)); // 10-60% más caro
+
+    generatedProducts.push({
+      id: currentId++,
+      name: name,
+      description: `${template.description}. Presentación ${size}${scent ? ` con fragancia a ${scent.toLowerCase()}` : ''}. Producto ${currentId - 1011}.`,
+      price: price,
+      originalPrice: originalPrice,
+      discount: originalPrice > price ? Math.round(((originalPrice - price) / originalPrice) * 100) : 0,
+      image: `https://images.unsplash.com/photo-${1500000000000 + (i * 1000)}?w=400&h=400&fit=crop`,
+      category: template.category,
+      brand: brand,
+      rating: Math.round((3.5 + (i % 15) / 10) * 10) / 10, // 3.5-5.0 rating
+      reviews: (i % 200) + 10,
+      inStock: i % 10 !== 0, // 90% en stock
+      featured: i % 7 === 0, // ~14% destacados
+      stock: (i % 100) + 10,
+      tags: [...template.tags, variant.toLowerCase(), size.toLowerCase(), ...(scent ? [scent.toLowerCase()] : [])],
+      images: [
+        `https://images.unsplash.com/photo-${1500000000000 + (i * 1000)}?w=400&h=400&fit=crop`,
+        `https://images.unsplash.com/photo-${1500000000000 + (i * 1000) + 500}?w=400&h=400&fit=crop`
+      ],
+      features: [`Característica ${i + 1}`, `Beneficio ${i + 1}`, `Ventaja ${i + 1}`],
+      specifications: {
+        'Contenido': size,
+        'Marca': brand,
+        'Tipo': variant,
+        'Código': `PROD-${currentId - 1}`
+      }
+    });
+
+    productIndex++;
+  }
+
+  console.log(`Generated ${generatedProducts.length} unique products`);
+  return generatedProducts;
+}
+
+// Generar exactamente 500 productos únicos
+const generatedProducts = generateExactly500Products();
+products.push(...generatedProducts);
+
+// Verificar que tenemos exactamente 500 productos
+console.log(`Total products after generation: ${products.length}`);
+
 export const searchProducts = (query) => {
   const searchTerm = query.toLowerCase();
-  return products.filter(product => 
+  return products.filter(product =>
     product.name.toLowerCase().includes(searchTerm) ||
     product.description.toLowerCase().includes(searchTerm) ||
     product.tags.some(tag => tag.toLowerCase().includes(searchTerm))

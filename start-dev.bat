@@ -45,7 +45,7 @@ for /f "tokens=5" %%a in ('netstat -aon ^| find ":3001" ^| find "LISTENING"') do
 
 :: Configurar backend
 echo 📦 Configurando backend...
-cd tienda-moderna-backend
+cd tienda-moderna\backend
 
 :: Instalar dependencias del backend si no existen
 if not exist "node_modules" (
@@ -61,9 +61,8 @@ if not exist ".env" (
     echo 🔧 IMPORTANTE: Configura las variables de entorno en tienda-moderna-backend/.env
 )
 
-:: Generar cliente Prisma
-echo 🔄 Generando cliente Prisma...
-call npx prisma generate
+:: Backend simplificado - no necesita Prisma
+echo ✅ Backend Node.js simplificado listo
 
 :: Ejecutar migraciones
 echo 🗄️  Ejecutando migraciones de base de datos...
@@ -99,8 +98,8 @@ if not exist ".env" (
 cd ..
 
 :: Crear directorios necesarios
-if not exist "tienda-moderna-backend\uploads" mkdir tienda-moderna-backend\uploads
-if not exist "tienda-moderna-backend\logs" mkdir tienda-moderna-backend\logs
+if not exist "tienda-moderna\backend\uploads" mkdir tienda-moderna\backend\uploads
+if not exist "tienda-moderna\backend\logs" mkdir tienda-moderna\backend\logs
 
 echo.
 echo ✅ Configuración completada
@@ -110,9 +109,9 @@ echo.
 
 :: Iniciar backend
 echo 🔧 Iniciando backend en puerto 3001...
-cd tienda-moderna-backend
-start "Backend - Tienda Moderna" cmd /k "npm run dev"
-cd ..
+cd tienda-moderna\backend
+start "Backend - Tienda Moderna" cmd /k "node server.js"
+cd ..\..
 
 :: Esperar un poco
 timeout /t 5 /nobreak >nul
